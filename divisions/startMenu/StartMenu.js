@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import './startMenu.css';
-import { vehicles } from '../../carsAndParts/carsAndParts.js';
+import { vehicles } from '../../data/carsAndParts.js';
 
 class StartMenu extends Component {
   constructor() {
@@ -24,6 +24,7 @@ class StartMenu extends Component {
     // add them to their place.
   
     // get possible saved driver info
+    /*
     const driverInfo = JSON.parse(localStorage.getItem('driverInfo'));
   
     if (driverInfo !== null) {
@@ -31,6 +32,33 @@ class StartMenu extends Component {
       colorF.value = driverInfo.color1;
       colorF2.value = driverInfo.color2;
     }
+    */// Dropdown menu for cars:
+    vehicles.forEach( (item) => { 
+      const o = document.createElement("option");
+      o.text = item.name;
+      o.value = item.name;
+      document.getElementById("selectCar").appendChild(o);
+    });
+    // Dropdown menu for circuits:
+    tracks.forEach( (item) => { 
+      const o = document.createElement("option");
+      o.text = item.name;
+      o.value = item.name;
+      document.getElementById("selectCircuit").appendChild(o);
+    });
+    // Dropdown menu for colors:
+    colors.forEach( (item) => { 
+      const o = document.createElement("option");
+      o.text = item;
+      o.value = item;
+      document.getElementById("selectColor").appendChild(o);
+    });
+    colors.forEach( (item) => { 
+      const o = document.createElement("option");
+      o.text = item;
+      o.value = item;
+      document.getElementById("selectColor2").appendChild(o);
+    });
   }
   render() {
     return (   
