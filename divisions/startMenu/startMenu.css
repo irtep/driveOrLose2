@@ -1,0 +1,126 @@
+#startButton {
+  opacity: 0;
+}
+/* creates shadows to text*/
+.resultColors {
+  text-shadow: 1px 0 0 grey, -1px 0 0 grey, 0 1px 0 grey, 0 -1px 0 grey, 1px 1px grey, -1px -1px 0 grey, 1px -1px 0 grey, -1px 1px 0 grey; 
+}
+#kanveesi {
+  display: none;
+  /*
+  background-color: lightGrey;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 6px;
+  border-color: black;*/ 
+}
+td {
+  width: 16%;
+  border-style: solid;
+}
+#gameTitle {
+  font-family: 'Audiowide', cursive;
+}
+/* Grid 1 */
+#container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-areas: 
+    'theHead'
+    'theForm'
+    'theFooter'
+    'theRecords';
+    grid-gap: 1px;
+}
+@media (min-width: 400px){
+  #container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-areas: 
+      'theHead theHead theHead'
+      'theForm theRecords theRecords'
+      'theForm theRecords theRecords'
+      'theForm theRecords theRecords'
+      'theForm theRecords theRecords'
+      'theFooter theFooter theFooter'
+      'theFooter theFooter theFooter'
+      'theFooter theFooter theFooter'
+      'theFooter theFooter theFooter';
+      grid-gap: 1px;
+  }
+}
+#theHeader { 
+  grid-area: theHead;
+  border-style: solid;
+  text-align: center;
+  font-size: 50px;
+}
+#idForm { 
+  grid-area: theForm;
+}
+#lapRecords { 
+  grid-area: theRecords;
+}
+#theFoot {
+  grid-area: theFooter;
+}
+.divs {
+  padding: 10px;
+}
+/* grid 2, where are lap records*/
+#container2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: 
+    'fFactory cCentre'
+    'lCurvas alleys'
+    'champs champs';
+  grid-gap: 1px; 
+}
+#finseFactory {
+  grid-area: fFactory;
+}
+#cityCentre {
+  grid-area: cCentre;
+}
+#lasCurvas {
+  grid-area: lCurvas;
+}
+#alleys {
+  grid-area: alleys;
+}
+#champs {
+  grid-area: champs;
+  border-top: solid;
+  border-color: gray;
+}
+/* grid 3 where are info place and form*/
+#container3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    'form helps';
+  grid-gap: 1px;
+}
+#menus {
+  grid-area: form;
+}
+#helps{
+  grid-area: helps;
+  border-left: solid;
+  border-right: solid;
+  border-color: gray;
+  padding: 10px;
+  font-size: 10px;
+}
+/* this can be enabled if need to test something*/
+#quickButton {
+  display: none;
+}
+#version {
+  font-size: 8px;
+}

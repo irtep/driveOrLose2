@@ -1,10 +1,36 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import './startMenu.css';
+import { vehicles } from '../../carsAndParts/carsAndParts.js';
 
 class StartMenu extends Component {
   constructor() {
     super();
+  }
+  componentDidMount(){
+    const insideFoot = document.getElementById('insideFoot');
+    const nameF = document.getElementById('yourName');
+    const colorF = document.getElementById('selectColor');
+    const colorF2 = document.getElementById('selectColor2');
+  
+    // Table to show car details:
+    vehicles.forEach( (vehicle) => {
+      insideFoot.innerHTML += '<td><b>' +vehicle.name +'</b><br>'+ vehicle.stats + '<br><br>' + vehicle.description +'</td>';
+    }); 
+  
+    // fetch top drivers and lap records entries from database.
+    //showListFromDB(false); // lap records
+    //showListFromDB(true);  // top drivers
+    // add them to their place.
+  
+    // get possible saved driver info
+    const driverInfo = JSON.parse(localStorage.getItem('driverInfo'));
+  
+    if (driverInfo !== null) {
+      nameF.value = driverInfo.name;
+      colorF.value = driverInfo.color1;
+      colorF2.value = driverInfo.color2;
+    }
   }
   render() {
     return (   
