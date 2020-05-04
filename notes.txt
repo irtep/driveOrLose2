@@ -1,0 +1,25 @@
+how to add sounds and music:
+ https://www.w3schools.com/graphics/game_sound.asp
+
+how to use firebase references:
+https://stackblitz.com/edit/firebase-read-example
+https://stackblitz.com/edit/firebase-read-write-example
+
+template for component:
+
+import React, { Component } from "react";
+import { render } from "react-dom";
+
+class LeftSection extends Component {
+  constructor() {
+    super();
+  }
+  render() {
+    return (
+      <div id="container">
+      </div>
+    );
+  }
+}
+
+export default LeftSection;
