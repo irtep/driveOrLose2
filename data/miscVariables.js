@@ -1,1 +1,2 @@
 export const colorsAll = ['white','green','darkGreen','black','navy','blue','cyan','orange','gold','yellow','red','crimson','silver','gray', 'pink', 'purple', 'cornsilk', 'navajowhite', 'aqua', 'aquamarine', 'blueviolet', 'burlyWood', 'cadetBlue', 'cornFlowerBlue', 'coral', 'darkBlue', 'darkMagenta', 'magenta', 'darkOrange', 'darkSeaGreen', 'deepPink', 'deepSkyBlue', 'fuchsia', 'greenYellow', 'hotPink', 'violet', 'yellowGreen'];
+export const raceTypes = ['Lap record hunt', 'Single Race', 'Championships Series'];
