@@ -1,5 +1,4 @@
 // CARS AND ACCESSORIES
-
 // Vehicles:
 export const vehicles = [
   {name: 'Rond Comet mk1', chassis: 'Rond Comet', motor: 'Rond V8', tires: 'Rockstone standard', armour: 'Defender XL',
@@ -28,7 +27,6 @@ export const vehicles = [
     }
 ];
 // ideas: high ace, MBW, Ozel Sorca
-
 // Chassises:
 export const chassises = [
   {name: 'Rond Comet', weight: 10, armour: 5, durability: 8, cost: 200,
@@ -100,7 +98,6 @@ export const chassises = [
    drawPoint: {x: 1.7, y: -1.5} // {x: -(partsToPaint.hull.w/1.5), y: -(partsToPaint.hull.h/1.5)}
   }
 ];
-
 // Motors: 
 export const motors = [
   {name: 'Rond V8', power: 2.1, maxSpeed: 29, weight: 5, durability: 10, cost: 100, desc: 'Powerful and durable, but heavy motor'},
@@ -111,7 +108,6 @@ export const motors = [
   {name: 'Vodkanov HD', power: 4.3, maxSpeed: 47, weight: 10, durability: 8, cost: 90, desc: 'This is motor designed for tanks. Lots of power. Heavy solution for heavy vehicle.'},
   {name: 'Ferrgini V12', power: 2, maxSpeed: 25, weight: 5, durability: 10, cost: 300, desc: 'Powerful Ferrgini race motor.'},
 ];
-
 // Tires:
 export const tires = [
   {name: 'Rockstone standard', grip: 26, cost: 100, weight: 0, desc: 'solid basic tires. you can not go wrong with these ones'},
@@ -120,7 +116,6 @@ export const tires = [
   {name: 'Xinghao X', grip: 20, cost: 50, weight: 1, desc: 'Cheap tire solution for low top speeds.'},
   {name: 'Tank tracks', grip: 47, cost: 120, weight: 7, desc: 'Rubber tank tracks. Great grip but weight quite much.'}
 ];
-
 // Armours:
 export const armours = [
   {name: 'Defender XL', weight: 5, value: 10, cost: 100, desc: 'big armour for big protection!'},
