@@ -1,8 +1,10 @@
-import { RectObstacle } from './classes.js';
+import { RectObstacle, Arrow, CheckPoint } from './classes.js';
 
 // reference to canvas
-const canv = document.getElementById("kanveesi");
-
+let canv = document.getElementById("kanveesi");
+if (canv === null || canv === undefined) {
+  canv = {width: 1, height: 1};
+}
 export const tracks = [
   {
     name: "Finse Factory",

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import './startMenu.css';
 import { vehicles } from '../../data/carsAndParts.js';
-import { colorsAll } from '../../data/miscVariables.js';
+import { colorsAll, raceTypes } from '../../data/miscVariables.js';
 import { tracks } from '../../data/tracks.js';
 
 class StartMenu extends Component {
@@ -47,6 +47,13 @@ class StartMenu extends Component {
       o.text = item.name;
       o.value = item.name;
       document.getElementById("selectCircuit").appendChild(o);
+    });
+    // Dropdown menu for race type:
+    raceTypes.forEach( (item) => { 
+      const o = document.createElement("option");
+      o.text = item;
+      o.value = item;
+      document.getElementById("typeOfRace").appendChild(o);
     });
     // Dropdown menu for colors:
     const colors = colorsAll.sort();
@@ -95,22 +102,11 @@ class StartMenu extends Component {
                 <option>Choose a color 2</option>
               </select>
             </form>
-            <p>Select a type of race:</p>
-
-            <form name= "typeOfRace" id= "typeOfRace" onchange= "typeChanged()">
-              <div>
-                <input type="radio" id="LapRecordHunt" name="raceType" value="LapRecordHunt"
-                       checked/>
-                <label for="LapRecordHunt">Lap record hunt.</label>
-              </div>
-              <div>
-                <input type="radio" id="singleRace" name="raceType" value="singleRace"/>
-                <label for="singleRace">Single race</label>
-              </div> 
-              <div>
-                <input type="radio" id="FullRacingSeason" name="raceType" value="FullRacingSeason"/>
-                <label for="FullRacingSeason">Full racing season</label>
-              </div>
+            Select a type of race:
+            <form name= "selectTypeOfRaceForm" id= "selectTypeOfRaceForm">
+              <select id="typeOfRace" onchange= "checkFields()">
+                <option>Choose type of race</option>
+              </select>
             </form>       
             Select circuit:
             <form name= "selectCircuitForm" id= "selectCircuitForm"> 
