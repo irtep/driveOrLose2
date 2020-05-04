@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import './startMenu.css';
 import { vehicles } from '../../data/carsAndParts.js';
+import { colorsAll } from '../../data/miscVariables.js';
+import { tracks } from '../../data/tracks.js';
 
 class StartMenu extends Component {
   constructor() {
@@ -47,6 +49,7 @@ class StartMenu extends Component {
       document.getElementById("selectCircuit").appendChild(o);
     });
     // Dropdown menu for colors:
+    const colors = colorsAll.sort();
     colors.forEach( (item) => { 
       const o = document.createElement("option");
       o.text = item;
