@@ -20,20 +20,37 @@ class StartMenu extends Component {
         tempGameObject.car.driver = data.target.value;
       break; 
       case 'selectCar':
-        console.log('sC');
+        tempGameObject.car.name = data.target.value;
       break;
       case 'selectColor':
         // color1 ja color2
-        console.log('selectColor');
+        tempGameObject.car.color1 = data.target.value;
       break;
       case 'selectColor2':
-        console.log('sco2');
+        tempGameObject.car.color2 = data.target.value;
       break;
       case 'typeOfRace':
-        console.log('tOr');
+        tempGameObject.race.typeOfRace = data.target.value;
+        /*  
+        const raceType= getRadioVal(document.getElementById('typeOfRace'), 'raceType');
+        const selectCircuitForm = document.getElementById('selectCircuitForm');
+        switch (data.target.value) {  
+          case 'LapRecordHunt':
+          selectCircuitForm.style.opacity = 1;
+          break;
+          case 'singleRace':
+            selectCircuitForm.style.opacity = 1;
+          break;
+          case 'FullRacingSeason':
+            selectCircuitForm.style.opacity = 0;
+          break;
+          default: console.log('racetype not found!');
+        }
+        
+         */
       break;
       case 'selectCircuit':
-        console.log('sCircu');
+        tempGameObject.race.track  = data.target.value;
       break;
       default: console.log('not found check info!');
     }
