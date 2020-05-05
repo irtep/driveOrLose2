@@ -23,6 +23,7 @@ class StartMenu extends Component {
         console.log('sC');
       break;
       case 'selectColor':
+        // color1 ja color2
         console.log('selectColor');
       break;
       case 'selectColor2':
@@ -38,6 +39,7 @@ class StartMenu extends Component {
     }
 
     this.setState({gameObject: tempGameObject});
+    console.log('state: ', this.state);
   }
   componentDidMount(){
     const insideFoot = document.getElementById('insideFoot');
