@@ -2,12 +2,42 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import './startMenu.css';
 import { vehicles } from '../../data/carsAndParts.js';
-import { colorsAll, raceTypes } from '../../data/miscVariables.js';
+import { colorsAll, raceTypes, gameObject } from '../../data/miscVariables.js';
 import { tracks } from '../../data/tracks.js';
 
 class StartMenu extends Component {
   constructor() {
     super();
+    this.state = {
+      gameObject: ''
+    }
+    this.checkInfo = this.checkInfo.bind(this);
+  }
+  checkInfo(data) {
+    const tempGameObject = {...this.state.gameObject};
+    switch (data.target.id) {
+      case 'yourName':
+        tempGameObject.car.driver = data.target.value;
+      break; 
+      case 'selectCar':
+        console.log('sC');
+      break;
+      case 'selectColor':
+        console.log('selectColor');
+      break;
+      case 'selectColor2':
+        console.log('sco2');
+      break;
+      case 'typeOfRace':
+        console.log('tOr');
+      break;
+      case 'selectCircuit':
+        console.log('sCircu');
+      break;
+      default: console.log('not found check info!');
+    }
+
+    this.setState({gameObject: tempGameObject});
   }
   componentDidMount(){
     const insideFoot = document.getElementById('insideFoot');
@@ -69,6 +99,8 @@ class StartMenu extends Component {
       o.value = item;
       document.getElementById("selectColor2").appendChild(o);
     });
+    // make gameObject:
+    this.setState({gameObject: gameObject});
   }
   render() {
     return (   
@@ -84,33 +116,33 @@ class StartMenu extends Component {
           <div id= "menus">
             
             Your name: <br/>
-            <input type= "text" id= "yourName" onchange= "checkFields()"/><br/><br/>
+            <input type= "text" id= "yourName" onChange= {this.checkInfo}/><br/><br/>
             Select your car:
             <form name= "selectCarForm" id= "selectCarForm"> 
-              <select id="selectCar" onchange= "checkFields()">
+              <select id="selectCar" onChange= {this.checkInfo}>
                 <option>Choose a car</option>
               </select>
             </form>  
             Select colors:
             <form name= "selectColorForm" id= "selectColorForm"> 
-              <select id="selectColor" onchange= "checkFields()">
+              <select id="selectColor" onChange= {this.checkInfo}>
                 <option>Choose a color 1</option>
               </select>
             </form>
             <form name= "selectColorForm2" id= "selectColorForm2"> 
-              <select id="selectColor2" onchange= "checkFields()">
+              <select id="selectColor2" onChange= {this.checkInfo}>
                 <option>Choose a color 2</option>
               </select>
             </form>
             Select a type of race:
             <form name= "selectTypeOfRaceForm" id= "selectTypeOfRaceForm">
-              <select id="typeOfRace" onchange= "checkFields()">
+              <select id="typeOfRace" onChange= {this.checkInfo}>
                 <option>Choose type of race</option>
               </select>
             </form>       
             Select circuit:
             <form name= "selectCircuitForm" id= "selectCircuitForm"> 
-              <select id="selectCircuit" onchange= "checkFields()">
+              <select id="selectCircuit" onChange= {this.checkInfo}>
                 <option>Choose a circuit</option>
               </select>
             </form> 
@@ -122,7 +154,6 @@ class StartMenu extends Component {
             GAME INFO:
             <p>
               Start by filling form at left.<br/><br/>
-              Mandatory fields: name, car, color 1.<br/><br/>
               Full racing season is 4 races and the most glorious form of play.<br/><br/>
               Race or lap record hunt is 3 laps long.<br/><br/>
               Info about cars in boxes below.<br/><br/>
