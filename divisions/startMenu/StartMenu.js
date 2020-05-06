@@ -14,6 +14,7 @@ class StartMenu extends Component {
     this.checkInfo = this.checkInfo.bind(this);
   }
   checkInfo(data) {
+    // adds selected data to gameObject
     const tempGameObject = {...this.state.gameObject};
     switch (data.target.id) {
       case 'yourName':
@@ -23,31 +24,27 @@ class StartMenu extends Component {
         tempGameObject.car.name = data.target.value;
       break;
       case 'selectColor':
-        // color1 ja color2
         tempGameObject.car.color1 = data.target.value;
       break;
       case 'selectColor2':
         tempGameObject.car.color2 = data.target.value;
       break;
       case 'typeOfRace':
-        tempGameObject.race.typeOfRace = data.target.value;
-        /*  
-        const raceType= getRadioVal(document.getElementById('typeOfRace'), 'raceType');
+        tempGameObject.race.typeOfRace = data.target.value;         
+        // if selected Champs Series, need to hide circuit selector and vice versa.
         const selectCircuitForm = document.getElementById('selectCircuitForm');
         switch (data.target.value) {  
-          case 'LapRecordHunt':
-          selectCircuitForm.style.opacity = 1;
-          break;
-          case 'singleRace':
+          case 'Lap Record Hunt':
             selectCircuitForm.style.opacity = 1;
           break;
-          case 'FullRacingSeason':
+          case 'Single Race':
+            selectCircuitForm.style.opacity = 1;
+          break;
+          case 'Championships Series':
             selectCircuitForm.style.opacity = 0;
           break;
           default: console.log('racetype not found!');
         }
-        
-         */
       break;
       case 'selectCircuit':
         tempGameObject.race.track  = data.target.value;
@@ -83,28 +80,29 @@ class StartMenu extends Component {
       colorF.value = driverInfo.color1;
       colorF2.value = driverInfo.color2;
     }
-    */// Dropdown menu for cars:
+    */
+    // fill dropdown menu for cars:
     vehicles.forEach( (item) => { 
       const o = document.createElement("option");
       o.text = item.name;
       o.value = item.name;
       document.getElementById("selectCar").appendChild(o);
     });
-    // Dropdown menu for circuits:
+    // fill dropdown menu for circuits:
     tracks.forEach( (item) => { 
       const o = document.createElement("option");
       o.text = item.name;
       o.value = item.name;
       document.getElementById("selectCircuit").appendChild(o);
     });
-    // Dropdown menu for race type:
+    // fill dropdown menu for race type:
     raceTypes.forEach( (item) => { 
       const o = document.createElement("option");
       o.text = item;
       o.value = item;
       document.getElementById("typeOfRace").appendChild(o);
     });
-    // Dropdown menu for colors:
+    // fill dropdown menu for colors:
     const colors = colorsAll.sort();
     colors.forEach( (item) => { 
       const o = document.createElement("option");
@@ -121,19 +119,55 @@ class StartMenu extends Component {
     // make gameObject:
     this.setState({gameObject: gameObject});
   }
+  componentDidUpdate() {
+    const selectOptions = [
+      document.getElementById('selectCar'),
+      document.getElementById('selectColor'),
+      document.getElementById('selectColor2'),
+      document.getElementById('typeOfRace'),
+      document.getElementById('selectCircuit')
+    ];
+    const defaultValues = [
+      'Choose a car',
+      'Choose a color 1',
+      'Choose a color 2',
+      'Choose type of race',
+      'Choose a circuit',
+    ];
+    // remove options "choose xxx" if that is already is chosen
+    selectOptions.forEach( (seOps, idx) => {
+      if (seOps.options[0].value === defaultValues[idx] && seOps.value !== defaultValues[idx]) {
+        seOps.remove(0);
+      }
+    });
+    // if all is selected, lets show the start button:
+    if (this.state.gameObject !== '') {
+      const startButton = document.getElementById('startButton');
+      if (this.state.gameObject.car.driver !== null &&
+          this.state.gameObject.car.name !== null &&
+          this.state.gameObject.car.color1 !== null &&
+          this.state.gameObject.car.color2 !== null &&
+          (this.state.gameObject.race.typeOfRace === 'Championships Series' ||
+          this.state.gameObject.race.track !== null && 
+          this.state.gameObject.race.typeOfRace !== null)) {
+        startButton.style.opacity = 1;
+      } else {
+        startButton.style.opacity = 0;
+      }
+    }
+  }
   render() {
     return (   
       <div id= "container">
       
-      <header id= "theHeader" class= "divs"> 
+      <header id= "theHeader" className= "divs"> 
         <span id= "gameTitle">Drive Or Lose 2.</span>
         <span id="version">beta 0.1</span>
       </header>
 
-      <div id= "idForm" class= "divs">
+      <div id= "idForm" className= "divs">
         <div id= "container3">
           <div id= "menus">
-            
             Your name: <br/>
             <input type= "text" id= "yourName" onChange= {this.checkInfo}/><br/><br/>
             Select your car:
@@ -166,8 +200,7 @@ class StartMenu extends Component {
               </select>
             </form> 
             <br/>
-            <input id= "startButton" type= "button" value= "Start" onclick= "start()"/>
-            <input id= "quickButton" type= "button" value= "Quick Start" onclick= "quickStart()"/>
+            <input id= "startButton" type= "button" value= "Start"/>
           </div>
           <div id= "helps">
             GAME INFO:
@@ -188,15 +221,15 @@ class StartMenu extends Component {
       
       <div id= "lapRecords">
         <div id= "container2">
-          <div id= "finseFactory" class= "divs">Finse Factory Top 3 laps:</div>
-          <div id= "cityCentre" class= "divs">City Centre Top 3 laps:</div>
-          <div id= "lasCurvas" class= "divs">Las Curvas Top 3 laps:</div>
-          <div id= "alleys" class= "divs">Alleys Top 3 laps:</div>
-          <div id= "champs" class= "divs">Drive or Lose Champions: <br/></div>
+          <div id= "finseFactory" className= "divs">Finse Factory Top 3 laps:</div>
+          <div id= "cityCentre" className= "divs">City Centre Top 3 laps:</div>
+          <div id= "lasCurvas" className= "divs">Las Curvas Top 3 laps:</div>
+          <div id= "alleys" className= "divs">Alleys Top 3 laps:</div>
+          <div id= "champs" className= "divs">Drive or Lose Champions: <br/></div>
         </div>
       </div>
 
-      <footer id= "theFoot" class= "divs">
+      <footer id= "theFoot" className= "divs">
         <table>
           <tbody>
             <tr id= "insideFoot"></tr>
