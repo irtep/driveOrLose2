@@ -9,12 +9,19 @@ class App extends Component {
     this.state = {
       status: 'start'
     };
+    this.receiveFromChild = this.receiveFromChild.bind(this);
   }
-
+  receiveFromChild(data) {
+    console.log('data from child: ', data);
+  }
+/*sendData= {this.getDataFromChild}
+ */
   render() {
+    let pageToShow = <StartMenu 
+    sendToParent = {this.receiveFromChild}/>;
     return (
       <div>
-       <StartMenu/>
+       {pageToShow}
       </div>
     );
   }
