@@ -1,24 +1,44 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import StartMenu from './divisions/startMenu/StartMenu.js';
+import Race from './divisions/race/Race.js';
 import './style.css';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      status: 'start'
+      status: 'start',
+      gameObject: ''
     };
     this.receiveFromChild = this.receiveFromChild.bind(this);
   }
   receiveFromChild(data) {
-    console.log('data from child: ', data);
+    switch (data.status) {
+      case 'readyForRace':
+        this.setState({
+          status: 'race',
+          gameObject: data.gameObject
+        });
+      break;
+      default: console.log('not found data from child!');
+    }
   }
-/*sendData= {this.getDataFromChild}
- */
   render() {
-    let pageToShow = <StartMenu 
-    sendToParent = {this.receiveFromChild}/>;
+    let pageToShow = null;
+    switch (this.state.status) {
+      case 'start':
+        pageToShow = <StartMenu 
+        sendToParent = {this.receiveFromChild}/>;
+      break;
+      case 'race':
+        pageToShow = <Race
+        gameObject = {this.state.gameObject}
+        sendToParent = {this.receiveFromChild}/>
+      break;
+      default: console.log('not found page to show!');
+    };
+
     return (
       <div>
        {pageToShow}
