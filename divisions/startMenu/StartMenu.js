@@ -12,6 +12,12 @@ class StartMenu extends Component {
       gameObject: ''
     }
     this.checkInfo = this.checkInfo.bind(this);
+    this.startGame = this.startGame.bind(this);
+  }
+  startGame() {
+    console.log('gameObject: ', this.state.gameObject);
+    // send request to start the race and gameObject to parent
+    this.props.sendToParent(this.state.gameObject); 
   }
   checkInfo(data) {
     // adds selected data to gameObject
@@ -200,7 +206,7 @@ class StartMenu extends Component {
               </select>
             </form> 
             <br/>
-            <input id= "startButton" type= "button" value= "Start"/>
+            <input id= "startButton" type= "button" value= "Start" onClick= {this.startGame}/>
           </div>
           <div id= "helps">
             GAME INFO:
