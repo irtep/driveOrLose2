@@ -15,9 +15,9 @@ class StartMenu extends Component {
     this.startGame = this.startGame.bind(this);
   }
   startGame() {
-    console.log('gameObject: ', this.state.gameObject);
+    const dataToSend = {status: 'readyForRace', gameObject: this.state.gameObject}
     // send request to start the race and gameObject to parent
-    this.props.sendToParent(this.state.gameObject); 
+    this.props.sendToParent(dataToSend); 
   }
   checkInfo(data) {
     // adds selected data to gameObject
