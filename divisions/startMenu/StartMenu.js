@@ -59,7 +59,7 @@ class StartMenu extends Component {
     }
 
     this.setState({gameObject: tempGameObject});
-    console.log('state: ', this.state);
+    //console.log('state: ', this.state);
   }
   componentDidMount(){
     const insideFoot = document.getElementById('insideFoot');
