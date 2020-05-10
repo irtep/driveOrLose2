@@ -39,6 +39,7 @@ class Race extends Component {
       }
       paintAll(gameObject.race);
       //giveStats();  // writes info to infoPlace.innerHTML as for bugfix purpose
+      // maybe to this.animate?
       raceAnimation = window.requestAnimationFrame(animate);
       //  if (gameObject.race.terminated) {
       //    terminateRace(gameObject);
