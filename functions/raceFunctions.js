@@ -1,7 +1,13 @@
 
+import { vehicles, chassises, motors, tires, armours } from '../data/carsAndParts.js';
+import { Car } from '../data/classes.js';
+import { aiCars } from '../data/aiDrivers.js';
+import { tracks } from '../data/tracks.js';
+import { paintAll } from './draw.js';
+import { aiDriverBrain } from './aiFunctions.js';
 let gameObject = null;
 
-export function carMovement(car) {
+export function carMovement(car, gameObject) {
   const stats = car.statuses;
   //let slipFactory = 0;
   
@@ -32,14 +38,14 @@ export function carMovement(car) {
     car.x += -speeds.x;
     car.y += speeds.y;
     // collision test:
-    updateXandY(gameObject.race.cars);
-    const colTest = collisionTest(car);
+    updateXandY(gameObject.race.cars, gameObject);
+    const colTest = collisionTest(car, gameObject);
         
     if (colTest !== false){ 
           
       car.x = oldX;
       car.y = oldY;
-      updateXandY(gameObject.race.cars);
+      updateXandY(gameObject.race.cars, gameObject);
       stats.speed = 0;
       stats.isMoving = false;
           
@@ -71,14 +77,14 @@ export function carMovement(car) {
       car.y += speeds.y;
       stats.isMoving = true;   
       // collision test:
-      updateXandY(gameObject.race.cars);
-      const colTest = collisionTest(car);
+      updateXandY(gameObject.race.cars, gameObject);
+      const colTest = collisionTest(car, gameObject);
       
         if (colTest !== false) { 
            
           car.x = oldX;
           car.y = oldY;
-          updateXandY(gameObject.race.cars);
+          updateXandY(gameObject.race.cars, gameObject);
           stats.speed = 0;
           stats.isMoving = false;
           
@@ -140,49 +146,6 @@ export function terminateRace(gameObj) {
     window.location = "https://driveorlose.glitch.me/afterRace";
   }, 2000);
   
-}
-
-export function animate(){
-  
-  if (gameObject.race.terminated !== true) {
-    // decide ai actions
-    // make them for everyone else except car[0] as that is players car. So i = 1, because of that.
-    for (let i = 1; i < gameObject.race.cars.length; i++) {
-
-      aiDriverBrain(gameObject.race.cars[i]);
-    }
-
-    gameObject.race.cars.forEach( (vehicle) => {
-      
-      if (vehicle.hitPoints > 0) {
-        carMovement(vehicle);
-      }
-    }); 
-
-    // check if all cars are disabled
-    if (gameObject.race.started) {
-
-      const carsInGoal = gameObject.race.cars.filter(car => gameObject.race.totalLaps == car.currentLap);
-      const brokenCars = gameObject.race.cars.filter(car => 0.1 > car.hitPoints);
-
-      // race is finished
-      if (carsInGoal.length + brokenCars.length === gameObject.race.cars.length)  {
-
-        gameObject.race.terminated = true;
-      }
-    }
-
-    paintAll(gameObject.race);
-    //giveStats();  // writes info to infoPlace.innerHTML as for bugfix purpose
-
-    window.requestAnimationFrame(animate);
-
-
-    if (gameObject.race.terminated) {
-
-      terminateRace(gameObject);
-    }
-  }
 }
 
 export function giveStats() {  // just informal stuff in development and bugfix purposes...
@@ -314,12 +277,11 @@ export function updateCar(carOnCase) {
   carOnCase.maxHitPoints = carOnCase.chassis.durability + carOnCase.motor.durability;
   return carOnCase;
 }
-
 /*
       CREATE NEW CAR
 */
 // this will create car to racetrack. playerCar indicates if this is for player or ai
-function createNewCar(newCar, playerCar){
+function createNewCar(newCar, playerCar, gameObject){
   console.log('createNewCar', newCar, playerCar);
   // search chassis, motor, tires, armour and pieces by cars name:
   // these are not defined atm...
@@ -458,8 +420,8 @@ export function testCollision(rectangle) {
   return collision;
 }
 
-// bring "full objects" like car or gameObject.race.track[0].obstacles[0]
-// example: checkRectangleCollision(car, gameObject.race.track[0].obstacles[0]);
+// bring "full objects" like car or gameObject.race.track.obstacles[0]
+// example: checkRectangleCollision(car, gameObject.race.track.obstacles[0]);
 export function checkRectangleCollision(rect, rect2) {
   //console.log('cRC ', rect, rect2);
   if (testCollision.call(rect, rect2)) return true;
@@ -468,17 +430,17 @@ export function checkRectangleCollision(rect, rect2) {
 }
 
 // collision test starts here
-export function collisionTest(car) {
+export function collisionTest(car, gameObject) {
   const noCollision = false;
   // AI cars own guide checkpoints:
     // ai guide checkPoints check
-    for (let ix1 = 0; ix1 < gameObject.race.track[0].aiCheckPoints.length; ix1++) {
-      const testResult = checkRectangleCollision(car, gameObject.race.track[0].aiCheckPoints[ix1]);
+    for (let ix1 = 0; ix1 < gameObject.race.track.aiCheckPoints.length; ix1++) {
+      const testResult = checkRectangleCollision(car, gameObject.race.track.aiCheckPoints[ix1]);
       if (testResult) {
-        if (car.nextAiCp === gameObject.race.track[0].aiCheckPoints[ix1].number) {
-          car.lastAiCp = gameObject.race.track[0].aiCheckPoints[ix1].number;
+        if (car.nextAiCp === gameObject.race.track.aiCheckPoints[ix1].number) {
+          car.lastAiCp = gameObject.race.track.aiCheckPoints[ix1].number;
           // check if last check points of track reached.
-          if (car.lastAiCp + 1 > gameObject.race.track[0].aiCheckPoints.length) {
+          if (car.lastAiCp + 1 > gameObject.race.track.aiCheckPoints.length) {
             car.nextAiCp = 1;
           } else { 
             car.nextAiCp++;
@@ -487,8 +449,8 @@ export function collisionTest(car) {
       }
     }
     // AIs danger zones
-    for (let ix1 = 0; ix1 < gameObject.race.track[0].dangerZones.length; ix1++) {
-      const testResult = checkRectangleCollision(car, gameObject.race.track[0].dangerZones[ix1]);
+    for (let ix1 = 0; ix1 < gameObject.race.track.dangerZones.length; ix1++) {
+      const testResult = checkRectangleCollision(car, gameObject.race.track.dangerZones[ix1]);
       if (testResult) {
         // cars start with undefined, so when entering first time set inDangerZone to 1.
         // 0 and undefined is not in danger, all others yes.
@@ -499,8 +461,8 @@ export function collisionTest(car) {
       }
     }
     // AIs danger is clear
-    for (let ix2 = 0; ix2 < gameObject.race.track[0].dangerClear.length; ix2++) {
-      const testResult = checkRectangleCollision(car, gameObject.race.track[0].dangerClear[ix2]);
+    for (let ix2 = 0; ix2 < gameObject.race.track.dangerClear.length; ix2++) {
+      const testResult = checkRectangleCollision(car, gameObject.race.track.dangerClear[ix2]);
       if (testResult) {
         // cars start with undefined, so when entering first time set inDangerZone to 1.
         // 0 and undefined is not in danger, all others yes.
@@ -511,13 +473,13 @@ export function collisionTest(car) {
     }       
   
   // check with checkPoints
-  for (let ind = 0; ind < gameObject.race.track[0].checkPoints.length; ind++) {
-    const testResult = checkRectangleCollision(car, gameObject.race.track[0].checkPoints[ind]);
+  for (let ind = 0; ind < gameObject.race.track.checkPoints.length; ind++) {
+    const testResult = checkRectangleCollision(car, gameObject.race.track.checkPoints[ind]);
     if (testResult) {
-      if (car.nextCheckPoint === gameObject.race.track[0].checkPoints[ind].number) {
-        car.lastCheckPoint = gameObject.race.track[0].checkPoints[ind].number;
+      if (car.nextCheckPoint === gameObject.race.track.checkPoints[ind].number) {
+        car.lastCheckPoint = gameObject.race.track.checkPoints[ind].number;
         // check if last check points of track reached.
-        if (car.lastCheckPoint + 1 > gameObject.race.track[0].checkPoints.length) {
+        if (car.lastCheckPoint + 1 > gameObject.race.track.checkPoints.length) {
           car.nextCheckPoint = 1;
         } else { 
           car.nextCheckPoint++; 
@@ -579,40 +541,40 @@ export function collisionTest(car) {
       }  
   }
   // check with track obstacles:
-  for (let iv = 0; iv < gameObject.race.track[0].obstacles.length; iv++) {
-    const testResult = checkRectangleCollision(car, gameObject.race.track[0].obstacles[iv]);  
-    //console.log('test: ', gameObject.race.track[0].obstacles[iv]);
-    if (testResult) { return gameObject.race.track[0].obstacles[iv]; } 
+  for (let iv = 0; iv < gameObject.race.track.obstacles.length; iv++) {
+    const testResult = checkRectangleCollision(car, gameObject.race.track.obstacles[iv]);  
+    //console.log('test: ', gameObject.race.track.obstacles[iv]);
+    if (testResult) { return gameObject.race.track.obstacles[iv]; } 
   }
   // if no collisions:
   return noCollision;
 }
 
 // sets x and y to all cars for collision purposes
-export function updateXandY(cars) {
+export function updateXandY(cars, gameObject) {
   // cars:
   cars.forEach((carInTurn) => {  
     carInTurn.angle = carInTurn.statuses.heading;
     carInTurn.setCorners(carInTurn.angle);
   }); 
   // rectangles in track:
-  gameObject.race.track[0].obstacles.forEach((obsInTurn) => {  
+  gameObject.race.track.obstacles.forEach((obsInTurn) => {  
     obsInTurn.setCorners(obsInTurn.angle);
   });
   // checkpoints:
-  gameObject.race.track[0].checkPoints.forEach((cpInTurn) => {  
+  gameObject.race.track.checkPoints.forEach((cpInTurn) => {  
     cpInTurn.setCorners(cpInTurn.angle);
   });  
   // ai guide checkpoints:
-  gameObject.race.track[0].aiCheckPoints.forEach((cpInTurn) => {  
+  gameObject.race.track.aiCheckPoints.forEach((cpInTurn) => {  
     cpInTurn.setCorners(cpInTurn.angle);
   }); 
   // ai danger zones
-  gameObject.race.track[0].dangerZones.forEach((cpInTurn) => {  
+  gameObject.race.track.dangerZones.forEach((cpInTurn) => {  
     cpInTurn.setCorners(cpInTurn.angle);
   });  
   // ai danger clear
-  gameObject.race.track[0].dangerClear.forEach((cpInTurn) => {  
+  gameObject.race.track.dangerClear.forEach((cpInTurn) => {  
     cpInTurn.setCorners(cpInTurn.angle);
   });
 }
@@ -634,29 +596,29 @@ export function setupRace(gameObject){
   switch (gameObject.race.typeOfRace) {
     case 'Lap Record Hunt':
       // players car:
-      gameObject.race.cars.push(createNewCar(gameObject.car, true));  
+      gameObject.race.cars.push(createNewCar(gameObject.car, true, gameObject));  
        // find selected track:
       const selectedTrack = tracks.filter( track => track.name === gameObject.race.track);
       gameObject.race.track = selectedTrack[0];
     break;
     case 'Single Race':
       // players car:
-      gameObject.race.cars.push(createNewCar(gameObject.car, true));
+      gameObject.race.cars.push(createNewCar(gameObject.car, true, gameObject));
       // ai cars:
-      gameObject.race.cars.push(createNewCar(aiCars[0], false));
-      gameObject.race.cars.push(createNewCar(aiCars[1], false));
-      gameObject.race.cars.push(createNewCar(aiCars[2], false));
+      gameObject.race.cars.push(createNewCar(aiCars[0], false, gameObject));
+      gameObject.race.cars.push(createNewCar(aiCars[1], false, gameObject));
+      gameObject.race.cars.push(createNewCar(aiCars[2], false, gameObject));
       // find selected track:
       const selectedTrack = tracks.filter( track => track.name === gameObject.race.track);
       gameObject.race.track = selectedTrack[0];
     break;
     case 'Championships Series':
       // players car:
-      gameObject.race.cars.push(createNewCar(gameObject.car, true));
+      gameObject.race.cars.push(createNewCar(gameObject.car, true, gameObject));
       // ai cars:
-      gameObject.race.cars.push(createNewCar(aiCars[0], false));
-      gameObject.race.cars.push(createNewCar(aiCars[1], false));
-      gameObject.race.cars.push(createNewCar(aiCars[2], false));
+      gameObject.race.cars.push(createNewCar(aiCars[0], false, gameObject));
+      gameObject.race.cars.push(createNewCar(aiCars[1], false, gameObject));
+      gameObject.race.cars.push(createNewCar(aiCars[2], false, gameObject));
       // starting from track 1
       if (gameObject.race.currentRace === undefined) {
         /*
@@ -667,7 +629,7 @@ export function setupRace(gameObject){
         gameObject.race.track = tracks[0];
         gameObject.race.currentRace = 0;  
       } else {
-        //gameObject.race.track[0] = tracks[gameObject.race.currentRace];
+        //gameObject.race.track = tracks[gameObject.race.currentRace];
         gameObject.race.track = tracks[gameObject.race.currentRace];
       }
     break;
