@@ -1,3 +1,5 @@
+import { updateXandY, collisionTest, getSpeeds } from './raceFunctions.js';
+import { TestBar } from '../data/classes.js';
 
 // radar results nForward = near forward, middistance = m, far = f
 let nForward = 'clear';
@@ -10,10 +12,10 @@ let fForward = 'clear';
 let fLeft = 'clear';
 let fRight = 'clear';
 
-function aiDriverBrain(aiCar) {
+export function aiDriverBrain(aiCar, gameObject) {
   const ip2 = document.getElementById('infoPlace2');
   ip2.innerHTML = '';
-  const aiCheckPoints = gameObject.race.track[0].aiCheckPoints;
+  const aiCheckPoints = gameObject.race.track.aiCheckPoints;
   const centerOfCar = {x: aiCar.leftTopCorner.x + (aiCar.w / 2), y: aiCar.leftTopCorner.y + (aiCar.h / 2)};
   let nextCp = aiCheckPoints.filter(cp => cp.number === aiCar.nextAiCp);
   const centerOfNextCheckPoint = {
@@ -40,7 +42,7 @@ function aiDriverBrain(aiCar) {
   let bestResult = 'forward';
   let shortestDistance = null;
   // go tests: 
-  radarCollisions(aiCar);
+  radarCollisions(aiCar, gameObject);
   
   // distance checks
   const forwardTestSpeeds = radarCheckForward(centerOfCar, aiCar.statuses.heading, 5);
@@ -181,8 +183,8 @@ function radarCheckRight(centerOfCar, heading, turnRate, speed) {
 }
 
 // radar for checking of collisions
-function radarCollisions(aiCar) {
-  updateXandY(gameObject.race.cars);
+function radarCollisions(aiCar, gameObject) {
+  updateXandY(gameObject.race.cars, gameObject);
   let coords = {x: JSON.parse(JSON.stringify(aiCar.x)), y: JSON.parse(JSON.stringify(aiCar.y - aiCar.h/2))};
   aiCar.radarBars = [ // (x, y, w, h, color, angle, name){x: aiCar.x, y: aiCar.y, w: 250, h: 10, heading: 
     // {x: aiCar.x, y: aiCar.y, w: 40, h: 10, heading: aiCar.statuses.heading
@@ -200,8 +202,8 @@ function radarCollisions(aiCar) {
   aiCar.radarBars.forEach( (bar) => {
     bar.driver = aiCar.driver; // so that will not check against own car.
     testBarsXandY(aiCar, bar);
-    updateXandY(gameObject.race.cars);
-    const colResults = collisionTest(bar);
+    updateXandY(gameObject.race.cars, gameObject);
+    const colResults = collisionTest(bar, gameObject);
     
     if (colResults !== false) {
      // console.log('not false ', JSON.parse(JSON.stringify(colResults)), JSON.parse(JSON.stringify(bar.name)));

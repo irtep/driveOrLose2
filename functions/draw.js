@@ -76,7 +76,7 @@ function clearCanvas(){
 }
 
 // Draw function:
-function paintAll(race) {
+export function paintAll(race) {
   const canvas = document.getElementById('kanveesi');
   const ctx = canvas.getContext("2d");
    
@@ -86,7 +86,7 @@ function paintAll(race) {
   //drawGrid();
   
   // markings like finish line etc.
-  const paintMarkings = race.track[0].trackMarkings.map( (mark) => {
+  const paintMarkings = race.track.trackMarkings.map( (mark) => {
     ctx.beginPath();
     ctx.fillStyle = mark.color;
     ctx.save(); // save coords system
@@ -99,7 +99,7 @@ function paintAll(race) {
   });
   
   // indicator arrows to track
-  const paintArrows = race.track[0].arrows.map( (arrow) => {
+  const paintArrows = race.track.arrows.map( (arrow) => {
     const x_center = arrow.toX;
     const y_center = arrow.toY;
     let angle = Math.atan2(arrow.toY-arrow.fromY,arrow.toX-arrow.fromX);
@@ -230,7 +230,7 @@ function paintAll(race) {
   });
 
   // some other stuff to track:
-  const paintTrack = race.track[0].obstacles.map( (obsta) => {
+  const paintTrack = race.track.obstacles.map( (obsta) => {
     
     if (obsta.name === 'arcO') {
       ctx.beginPath();
@@ -249,7 +249,7 @@ function paintAll(race) {
   });
   // paint checkpoints. only on design/test/new trackmaking purpose will be visibles
    /*
-  const paintCps = race.track[0].checkPoints.map( (cP) => {
+  const paintCps = race.track.checkPoints.map( (cP) => {
        
     ctx.beginPath();
     ctx.strokeStyle = 'gold';
@@ -265,7 +265,7 @@ function paintAll(race) {
      
   });    
   
-  const paintAiCps = race.track[0].aiCheckPoints.map( (cP) => {
+  const paintAiCps = race.track.aiCheckPoints.map( (cP) => {
        
     ctx.beginPath();
     ctx.strokeStyle = 'red';
@@ -281,7 +281,7 @@ function paintAll(race) {
      
   });  
   
-  const paintDz = race.track[0].dangerZones.map( (cP) => {
+  const paintDz = race.track.dangerZones.map( (cP) => {
        
     ctx.beginPath();
     ctx.strokeStyle = 'purple';
@@ -297,7 +297,7 @@ function paintAll(race) {
      
   });  
   
-  const paintDc = race.track[0].dangerClear.map( (cP) => {
+  const paintDc = race.track.dangerClear.map( (cP) => {
        
     ctx.beginPath();
     ctx.strokeStyle = 'green';
