@@ -139,7 +139,26 @@ class Race extends Component {
             this.setState({gameObject});
           }
       }, 1000);      
-      // start race time keeping
+      // start race time keeping  
+      const lapTimer = window.setInterval(() => {
+        const gameObject = {...this.state.gameObject};
+        if (gameObject.race.cars[0].currentLap > gameObject.race.totalLaps) {
+          window.clearInterval(lapTimer)
+        }
+        // update lap time
+        if (gameObject.race.currentLapTime.milliseconds < 99) {
+          gameObject.race.currentLapTime.milliseconds++;
+        } else {
+          gameObject.race.currentLapTime.milliseconds = 0;
+          if (gameObject.race.currentLapTime.seconds < 59) {
+            gameObject.race.currentLapTime.seconds++;
+          } else {          
+            gameObject.race.currentLapTime.seconds = 0;
+            gameObject.race.currentLapTime.minutes++;
+          }
+        }
+        this.setState({gameObject});
+      }, 10);
       // start animation
       this.animate();
       // set raceStarted = true
@@ -155,6 +174,8 @@ class Race extends Component {
           <canvas id= "kanveesi" width= "900" height= "600">
             Your browser does not support canvas.
           </canvas>
+        </div>
+        <div id= "infoPlace2">
         </div>
       </div>
     );

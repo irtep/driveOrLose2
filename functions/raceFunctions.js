@@ -150,7 +150,7 @@ export function terminateRace(gameObj) {
 
 export function giveStats() {  // just informal stuff in development and bugfix purposes...
   const infoPlace = document.getElementById('infoPlace');
-  //const infoPlace2 = document.getElementById('infoPlace2');
+  const infoPlace2 = document.getElementById('infoPlace2');
   /*
   infoPlace.innerHTML = 'currentLap: ' + gameObject.race.cars[0].currentLap + ' last/next checkPoint: ' + 
   gameObject.race.cars[0].lastCheckPoint + '/' + gameObject.race.cars[0].nextCheckPoint + 'lap time: ' +
@@ -210,7 +210,7 @@ export function updateCar(carOnCase) {
   carOnCase.statuses.power = carOnCase.motor.power - (carOnCase.weight/10);
   carOnCase.statuses.maxSpeed = carOnCase.motor.maxSpeed - carOnCase.weight;
   carOnCase.statuses.grip = carOnCase.tires.grip - carOnCase.weight;
-  carOnCase.pieces.hull.color = carOnCase.color;
+  carOnCase.pieces.hull.color = carOnCase.color1;
   carOnCase.armourValue = carOnCase.chassis.armour + carOnCase.armour.value;
   // giving 0 hit points as a starting stats:
   carOnCase.hitPoints = 0;
@@ -439,7 +439,6 @@ export function collisionTest(car, gameObject) {
             gameObject.race.currentLapTime.seconds = 0;
             gameObject.race.currentLapTime.milliseconds = 0;
             // write lap times:
-            /*
             if (gameObject.race.totalLaps + 1 > car.currentLap) {
               let lapTimes = '';
               gameObject.race.lastLaps.forEach( (times) => {
@@ -447,7 +446,6 @@ export function collisionTest(car, gameObject) {
               });
               infoPlace2.innerHTML = lapTimes;
             }
-            */
           }
           car.currentLap++  
           // check if this was last lap
@@ -615,8 +613,8 @@ export function setupRace(gameObject){
   gameObject.race.currentLapTime = {minutes: 0, seconds: 0, milliseconds: 0};
   gameObject.race.lastLaps = [];
   // there could be first 6 seconds countdown to start the race/time attack.
-  let seconds = 6; // to start race
-  const infoPlace = document.getElementById('infoPlace');
+  //let seconds = 6; // to start race
+  //const infoPlace = document.getElementById('infoPlace');
   /*
   const countDown = window.setInterval(() => {
     seconds--;

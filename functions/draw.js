@@ -136,37 +136,32 @@ export function paintAll(race) {
     else {
       //ctx.translate(partsToPaint.hull.x, partsToPaint.hull.y);} // go here
       ctx.translate(unit.x, unit.y);} // go here
-    ctx.rotate(degrees * Math.PI / 180);
-    ctx.rect(drawPoint.x, drawPoint.y, partsToPaint.hull.w, partsToPaint.hull.h);// time to paint it
-    ctx.fill();
-    ctx.closePath();
-    
-    // other parts: 
-    const paintIt = partsToPaint.parts.map((part) => {
-      
-      ctx.beginPath();
-      ctx.fillStyle = part.color;
-      ctx.rect(part.x, part.y, part.w, part.h);
+      ctx.rotate(degrees * Math.PI / 180);
+      ctx.rect(drawPoint.x, drawPoint.y, partsToPaint.hull.w, partsToPaint.hull.h);// time to paint it
       ctx.fill();
-    }); 
+      ctx.closePath();
+    
+      // other parts: 
+      const paintIt = partsToPaint.parts.map((part) => {
+        ctx.beginPath();
+        ctx.fillStyle = part.color;
+        ctx.rect(part.x, part.y, part.w, part.h);
+        ctx.fill();
+      }); 
       // write drivers name or disabled if no hps
-    if (unit.hitPoints < 0.1 && unit.currentLap > 0) {
-      
-      ctx.beginPath();
-      ctx.fillStyle = 'red';
-      ctx.fillText ('DISABLED!', drawPoint.x, drawPoint.y);
-      ctx.fill; 
-    } else {
-    
-      ctx.beginPath();
-      ctx.fillStyle = 'black';
-      ctx.fillText (unit.driver, drawPoint.x, drawPoint.y);
-      //ctx.fillText (unit.nextCheckPoint, drawPoint.x, drawPoint.y);
-      ctx.fill;     
-    }
-    
-    ctx.restore(); // restore coords.
-        
+      if (unit.hitPoints < 0.1 && unit.currentLap > 0) {
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.fillText ('DISABLED!', drawPoint.x, drawPoint.y);
+        ctx.fill; 
+      } else {
+        ctx.beginPath();
+        ctx.fillStyle = 'black';
+        ctx.fillText (unit.driver, drawPoint.x, drawPoint.y);
+        //ctx.fillText (unit.nextCheckPoint, drawPoint.x, drawPoint.y);
+        ctx.fill;     
+      }
+      ctx.restore(); // restore coords.  
     // test radarbars:
     /*
     if (gameObject.race.tests.radarBars !== null) {
@@ -231,21 +226,19 @@ export function paintAll(race) {
 
   // some other stuff to track:
   const paintTrack = race.track.obstacles.map( (obsta) => {
-    
-    if (obsta.name === 'arcO') {
-      ctx.beginPath();
-      ctx.strokeStyle = obsta.color;
-      ctx.arc(obsta.x, obsta.y, obsta.a, obsta.aS, obsta.aE);
-      ctx.stroke();   
-    }
-    
-    if (obsta.rType === 'building'){
-      ctx.beginPath();
-      ctx.fillStyle = obsta.color;
-      ctx.rect(obsta.x, obsta.y, obsta.w, obsta.h);
-      ctx.fill();
-      ctx.closePath();
-    }
+  if (obsta.name === 'arcO') {
+    ctx.beginPath();
+    ctx.strokeStyle = obsta.color;
+    ctx.arc(obsta.x, obsta.y, obsta.a, obsta.aS, obsta.aE);
+    ctx.stroke();   
+  }
+  if (obsta.rType === 'building'){
+    ctx.beginPath();
+    ctx.fillStyle = obsta.color;
+    ctx.rect(obsta.x, obsta.y, obsta.w, obsta.h);
+    ctx.fill();
+    ctx.closePath();
+  }
   });
   // paint checkpoints. only on design/test/new trackmaking purpose will be visibles
    /*
