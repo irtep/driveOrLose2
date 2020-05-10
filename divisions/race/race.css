@@ -1,6 +1,7 @@
 * { 
   font-family: sans-serif;
 }
+/*
 #inCenter {
   display: grid;
 }
@@ -16,7 +17,9 @@
   grid-column: 1;
   grid-row: 3;
 }
+*/
 #kanveesi {
+  display: block;
   background-color: lightGrey;
   border-style: solid;
   border-radius: 5px;
