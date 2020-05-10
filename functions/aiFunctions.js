@@ -13,8 +13,8 @@ let fLeft = 'clear';
 let fRight = 'clear';
 
 export function aiDriverBrain(aiCar, gameObject) {
-  const ip2 = document.getElementById('infoPlace2');
-  ip2.innerHTML = '';
+  //const ip2 = document.getElementById('infoPlace2');
+  //ip2.innerHTML = '';
   const aiCheckPoints = gameObject.race.track.aiCheckPoints;
   const centerOfCar = {x: aiCar.leftTopCorner.x + (aiCar.w / 2), y: aiCar.leftTopCorner.y + (aiCar.h / 2)};
   let nextCp = aiCheckPoints.filter(cp => cp.number === aiCar.nextAiCp);

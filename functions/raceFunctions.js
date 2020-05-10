@@ -150,7 +150,7 @@ export function terminateRace(gameObj) {
 
 export function giveStats() {  // just informal stuff in development and bugfix purposes...
   const infoPlace = document.getElementById('infoPlace');
-  const infoPlace2 = document.getElementById('infoPlace2');
+  //const infoPlace2 = document.getElementById('infoPlace2');
   /*
   infoPlace.innerHTML = 'currentLap: ' + gameObject.race.cars[0].currentLap + ' last/next checkPoint: ' + 
   gameObject.race.cars[0].lastCheckPoint + '/' + gameObject.race.cars[0].nextCheckPoint + 'lap time: ' +
@@ -203,65 +203,6 @@ export function getSpeedsSliding (rotation, speed, slide) {
 	};
 }
 
-// key Listeners, gameObject.race.cars[0] is players car
-export function checkKeyPressed(pressed){ 
-  switch (pressed.code) {
-    // up  
-    case 'ArrowUp': 
-      gameObject.race.cars[0].statuses.accelerate = true;
-    break;
-      // shift, for alternative acceleration 
-    case 'ShiftRight': 
-      gameObject.race.cars[0].statuses.accelerate = true;
-    break;
-    // down
-    case 'ArrowDown': 
-      gameObject.race.cars[0].statuses.braking = true;
-    break;
-    // left  
-    case 'ArrowLeft': 
-      gameObject.race.cars[0].statuses.turnLeft = true;
-    break;
-    // right  
-    case 'ArrowRight': 
-      gameObject.race.cars[0].statuses.turnRight = true;
-    break;
-    // 'r' for reverse:
-    case 'KeyR':
-      gameObject.race.cars[0].statuses.reverse = true;  
-    break;
-    default: console.log('not found this key(pressed)');  
-  }
-}
-export function checkKeyReleased(released){
-  switch (released.code) {
-    // up  
-    case 'ArrowUp': 
-      gameObject.race.cars[0].statuses.accelerate = false;     
-    break;  
-    // shift, for alternative acceleration 
-    case 'ShiftRight': 
-      gameObject.race.cars[0].statuses.accelerate = false;
-    break;
-    // down
-    case 'ArrowDown': 
-      gameObject.race.cars[0].statuses.braking = false;
-    break;
-    // left  
-    case 'ArrowLeft': 
-      gameObject.race.cars[0].statuses.turnLeft = false;
-    break;
-    // right  
-    case 'ArrowRight': 
-      gameObject.race.cars[0].statuses.turnRight = false;
-    break;      
-    // 'r' for reverse:
-    case 'KeyR':
-      gameObject.race.cars[0].statuses.reverse = false;  
-    break;     
-    default: console.log('not found this key(released) ');  
-  }
-}
 // updating weight, color, cost, armour, hitPoints and car handling stats.
 export function updateCar(carOnCase) {
   carOnCase.weight = carOnCase.chassis.weight + carOnCase.armour.weight + carOnCase.motor.weight + carOnCase.tires.weight;
@@ -498,6 +439,7 @@ export function collisionTest(car, gameObject) {
             gameObject.race.currentLapTime.seconds = 0;
             gameObject.race.currentLapTime.milliseconds = 0;
             // write lap times:
+            /*
             if (gameObject.race.totalLaps + 1 > car.currentLap) {
               let lapTimes = '';
               gameObject.race.lastLaps.forEach( (times) => {
@@ -505,6 +447,7 @@ export function collisionTest(car, gameObject) {
               });
               infoPlace2.innerHTML = lapTimes;
             }
+            */
           }
           car.currentLap++  
           // check if this was last lap
