@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import './race.css';
-import { setupRace, animate} from '../../../functions/raceFunctions.js';
+import { setupRace, animate, checkKeyPressed, checkKeyReleased} from '../../functions/raceFunctions.js';
 const keyDownListeners = window.addEventListener("keydown", checkKeyPressed, false); 
 const keyUpListeners = window.addEventListener("keyup", checkKeyReleased, false); 
 
@@ -20,9 +20,10 @@ class Race extends Component {
     console.log('state of race: ', this.state);
     if (this.state.raceStarted === false) {
       // setup race
-      setupRace();
+      const newGameObject = setupRace(this.state.gameObject);
+      console.log('newGo ', newGameObject);
       // start animation
-      animate();
+      //animate();
       // set raceStarted = true
       this.setState({raceStarted: true});
     }

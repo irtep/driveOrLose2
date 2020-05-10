@@ -198,7 +198,7 @@ export function giveStats() {  // just informal stuff in development and bugfix 
   
 }
 // with grip
-function getSpeeds (rotation, speed) {
+export function getSpeeds (rotation, speed) {
   const to_angles = Math.PI/180;
   
   return {
@@ -207,7 +207,7 @@ function getSpeeds (rotation, speed) {
 	};
 }
 // when lost grip:
-function getSpeedsSliding (rotation, speed, slide) {
+export function getSpeedsSliding (rotation, speed, slide) {
   const to_angles = Math.PI/180;
   let speedX = Math.cos(rotation * to_angles) * speed * -1;
   let speedY = Math.sin(rotation * to_angles) * speed;
@@ -241,7 +241,7 @@ function getSpeedsSliding (rotation, speed, slide) {
 }
 
 // key Listeners, gameObject.race.cars[0] is players car
-function checkKeyPressed(pressed){ 
+export function checkKeyPressed(pressed){ 
   switch (pressed.code) {
     // up  
     case 'ArrowUp': 
@@ -270,7 +270,7 @@ function checkKeyPressed(pressed){
     default: console.log('not found this key(pressed)');  
   }
 }
-function checkKeyReleased(released){
+export function checkKeyReleased(released){
   switch (released.code) {
     // up  
     case 'ArrowUp': 
@@ -300,7 +300,7 @@ function checkKeyReleased(released){
   }
 }
 // updating weight, color, cost, armour, hitPoints and car handling stats.
-function updateCar(carOnCase) {
+export function updateCar(carOnCase) {
   carOnCase.weight = carOnCase.chassis.weight + carOnCase.armour.weight + carOnCase.motor.weight + carOnCase.tires.weight;
   carOnCase.cost = carOnCase.chassis.cost + carOnCase.armour.cost + carOnCase.tires.cost + carOnCase.motor.cost;
   carOnCase.statuses.power = carOnCase.motor.power - (carOnCase.weight/10);
@@ -320,7 +320,9 @@ function updateCar(carOnCase) {
 */
 // this will create car to racetrack. playerCar indicates if this is for player or ai
 function createNewCar(newCar, playerCar){
+  console.log('createNewCar', newCar, playerCar);
   // search chassis, motor, tires, armour and pieces by cars name:
+  // these are not defined atm...
   const allPieces = {
     vehicles: JSON.parse(JSON.stringify(vehicles)),
     chassises: JSON.parse(JSON.stringify(chassises)),
@@ -399,12 +401,12 @@ function createNewCar(newCar, playerCar){
   }
   const carsRootStats = {name: newCar.name, cost: newCar.cost, weight: newCar.weight, armourValue: newCar.armourValue, hitPoints: newCar.hitPoints,
                         maxHitPoints: newCar.maxHitPoints};
-  //console.log('new car created, gO: ', gameObject);
+  console.log('new car created, gO: ', newCar);
   return new Car(newCar.driver, carsRootStats, newCar.pieces, newCar.statuses);
 }
 
 // damage dealer:
-function damageDealer(obj1, obj2) {
+export function damageDealer(obj1, obj2) {
   let weightDifference = Math.abs(obj1.weight) - Math.abs(obj2.weight);
   const absDifference = Math.abs(weightDifference);
   const damages = {car1: 0, car2: 0};
@@ -434,7 +436,7 @@ function damageDealer(obj1, obj2) {
 /*  
   RECTANGLE BASED COLLISION TEST: 
 */
-function pointInPoly(verties, testx, testy) { 
+export function pointInPoly(verties, testx, testy) { 
   var i;
   var j;
   var c = 0;
@@ -446,7 +448,7 @@ function pointInPoly(verties, testx, testy) {
   return c;
 }
 
-function testCollision(rectangle) {
+export function testCollision(rectangle) {
   var collision = false;
   //console.log('testC ', rectangle);
   this.getCorners().forEach((corner) => {
@@ -458,7 +460,7 @@ function testCollision(rectangle) {
 
 // bring "full objects" like car or gameObject.race.track[0].obstacles[0]
 // example: checkRectangleCollision(car, gameObject.race.track[0].obstacles[0]);
-function checkRectangleCollision(rect, rect2) {
+export function checkRectangleCollision(rect, rect2) {
   //console.log('cRC ', rect, rect2);
   if (testCollision.call(rect, rect2)) return true;
   else if (testCollision.call(rect2, rect)) return true;
@@ -466,7 +468,7 @@ function checkRectangleCollision(rect, rect2) {
 }
 
 // collision test starts here
-function collisionTest(car) {
+export function collisionTest(car) {
   const noCollision = false;
   // AI cars own guide checkpoints:
     // ai guide checkPoints check
@@ -587,7 +589,7 @@ function collisionTest(car) {
 }
 
 // sets x and y to all cars for collision purposes
-function updateXandY(cars) {
+export function updateXandY(cars) {
   // cars:
   cars.forEach((carInTurn) => {  
     carInTurn.angle = carInTurn.statuses.heading;
@@ -615,7 +617,7 @@ function updateXandY(cars) {
   });
 }
 
-function nameChecker(name1, name2) {
+export function nameChecker(name1, name2) {
   if (name1 === name2) {
     return true;
   } else {
@@ -627,37 +629,28 @@ function nameChecker(name1, name2) {
     Setup the race.
     ------------------
 */  
-function setupRace(){
+export function setupRace(gameObject){
   // players car:
   switch (gameObject.race.typeOfRace) {
-    case 'LapRecordHunt':
+    case 'Lap Record Hunt':
       // players car:
       gameObject.race.cars.push(createNewCar(gameObject.car, true));  
        // find selected track:
-      for (let i = 0; i < tracks.length; i++) {
-        if (tracks[i].name === gameObject.race.track) {
-          gameObject.race.track = [];
-          gameObject.race.track.push(tracks[i]);
-
-        }
-      }
+      const selectedTrack = tracks.filter( track => track.name === gameObject.race.track);
+      gameObject.race.track = selectedTrack[0];
     break;
-    case 'singleRace':
+    case 'Single Race':
       // players car:
       gameObject.race.cars.push(createNewCar(gameObject.car, true));
       // ai cars:
       gameObject.race.cars.push(createNewCar(aiCars[0], false));
       gameObject.race.cars.push(createNewCar(aiCars[1], false));
       gameObject.race.cars.push(createNewCar(aiCars[2], false));
-            // find selected track:
-      for (let i = 0; i < tracks.length; i++) {
-        if (tracks[i].name === gameObject.race.track) {
-          gameObject.race.track = [];
-          gameObject.race.track.push(tracks[i]);
-        }
-      }
+      // find selected track:
+      const selectedTrack = tracks.filter( track => track.name === gameObject.race.track);
+      gameObject.race.track = selectedTrack[0];
     break;
-    case 'FullRacingSeason':
+    case 'Championships Series':
       // players car:
       gameObject.race.cars.push(createNewCar(gameObject.car, true));
       // ai cars:
@@ -666,18 +659,20 @@ function setupRace(){
       gameObject.race.cars.push(createNewCar(aiCars[2], false));
       // starting from track 1
       if (gameObject.race.currentRace === undefined) {
+        /*
         gameObject.race.track = [];
         gameObject.race.track.push(tracks[0]);
+        gameObject.race.currentRace = 0;
+        */
+        gameObject.race.track = tracks[0];
         gameObject.race.currentRace = 0;  
       } else {
         //gameObject.race.track[0] = tracks[gameObject.race.currentRace];
-        gameObject.race.track = [];
-        gameObject.race.track.push(tracks[gameObject.race.currentRace]);
+        gameObject.race.track = tracks[gameObject.race.currentRace];
       }
     break;
     default: console.log('not found in setupRace type of race');  
   }
-  
   // check that no overlapping names
   // not only for clarity reasons in standings, but for collision test too.
   for (let i = 1; i < gameObject.race.cars.length; i++) {
@@ -690,10 +685,9 @@ function setupRace(){
   //createNewCar(aiCars[2], false); 
    // track 0: factory, 1: city center
   // if track is not selected
-  if (gameObject.race.track.length === 0) {
-    gameObject.race.track.push(tracks[0]);
-  }
-  
+  //if (gameObject.race.track.length === 0) {
+  //  gameObject.race.track.push(tracks[0]);
+  //}
   // finish x and y setup and get angles.
   gameObject.race.cars.forEach((carInTurn) => {  
     carInTurn.x = carInTurn.pieces.hull.x;
@@ -710,16 +704,15 @@ function setupRace(){
     carInTurn.currentLap = 0;
     carInTurn.lapTime = null;
     carInTurn.bestTime = null;
-  });
-   
+  }); 
   // laps and raceclock:
   gameObject.race.totalLaps = 4;
   gameObject.race.currentLapTime = {minutes: 0, seconds: 0, milliseconds: 0};
   gameObject.race.lastLaps = [];
-  
   // there could be first 6 seconds countdown to start the race/time attack.
   let seconds = 6; // to start race
   const infoPlace = document.getElementById('infoPlace');
+  /*
   const countDown = window.setInterval(() => {
     seconds--;
     infoPlace.innerHTML = 'Get ready! Race starts in: ' + seconds;
@@ -734,8 +727,9 @@ function setupRace(){
       window.clearInterval(countDown);
     }
   }, 1000);
-  
+  */
   // start lap clock
+  /*
   const lapTimer = window.setInterval(() => {
     if (gameObject.race.cars[0].currentLap > gameObject.race.totalLaps) {window.clearInterval(lapTimer)};
     // update lap time
@@ -747,7 +741,9 @@ function setupRace(){
       }
     }
   }, 10);
+  */
   //console.log('go: ', gameObject);
+  return gameObject;
 }
 
 /**
