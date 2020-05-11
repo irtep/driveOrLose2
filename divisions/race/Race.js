@@ -15,6 +15,12 @@ class Race extends Component {
     this.animate = this.animate.bind(this);
     this.checkKeyPressed = this.checkKeyPressed.bind(this);
     this.checkKeyReleased = this.checkKeyReleased.bind(this);
+    this.stopRace = this.stopRace.bind(this);
+  }
+  stopRace() {
+    const dataToSend = {status: 'raceTerminated', gameObject: this.state.gameObject}
+    // send request to show after race screen and gameObject to parent
+    this.props.sendToParent(dataToSend); 
   }
   checkKeyPressed(pressed) {
     const gameObject = {...this.state.gameObject};
@@ -106,9 +112,9 @@ class Race extends Component {
       paintAll(gameObject.race);
       //giveStats();  // writes info to infoPlace.innerHTML as for bugfix purpose
       const raceAnimation = window.requestAnimationFrame(this.animate);
-      //  if (gameObject.race.terminated) {
-      //    terminateRace(gameObject);
-      //  }
+      if (gameObject.race.terminated) {
+        this.stopRace();
+      }
     }
   }
   componentDidMount() {
@@ -124,20 +130,20 @@ class Race extends Component {
       const newGameObject = setupRace(this.state.gameObject);
       // start race countdown
       const countDown = window.setInterval(() => {
-          seconds--;
-          infoPlace.innerHTML = 'Get ready! Race starts in: ' + seconds;
-          if (seconds === 0) {
-            const gameObject = {...this.state.gameObject};
-            infoPlace.innerHTML = 'Race is On!'
-            // give cars hit points to allow it move
-            gameObject.race.cars.forEach((carInTurn) => {  
-              carInTurn.hitPoints = JSON.parse(JSON.stringify(carInTurn.maxHitPoints));
-            });
-            gameObject.race.started = true;
-            // terminate this calculator:
-            window.clearInterval(countDown);
-            this.setState({gameObject});
-          }
+        seconds--;
+        infoPlace.innerHTML = 'Get ready! Race starts in: ' + seconds;
+        if (seconds === 0) {
+          const gameObject = {...this.state.gameObject};
+          infoPlace.innerHTML = 'Race is On!'
+          // give cars hit points to allow it move
+          gameObject.race.cars.forEach((carInTurn) => {  
+            carInTurn.hitPoints = JSON.parse(JSON.stringify(carInTurn.maxHitPoints));
+          });
+          gameObject.race.started = true;
+          // terminate this calculator:
+          window.clearInterval(countDown);
+          this.setState({gameObject});
+        }
       }, 1000);      
       // start race time keeping  
       const lapTimer = window.setInterval(() => {
