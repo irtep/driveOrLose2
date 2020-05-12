@@ -8,7 +8,8 @@ class AfterRace extends Component {
   constructor() {
     super();
     this.state = {
-      gameObject: ''
+      gameObject: '',
+      showContinueButton: false
     }
     this.buttonClick = this.buttonClick.bind(this);
   }
@@ -30,21 +31,15 @@ class AfterRace extends Component {
     const showStandings = document.getElementById('showStandings');
     const continueButton = document.getElementById('continueButton');
     let raceTypeSummary = null;
- /**          case 'Lap Record Hunt':
-            selectCircuitForm.style.opacity = 1;
-          break;
-          case 'Single Race':
-            selectCircuitForm.style.opacity = 1;
-          break;
-          case 'Championships Series': */
+
     if (gameObject.race.typeOfRace === 'Lap Record Hunt') {
-      raceTypeSummary = 'Lap record hunt summary: ';
+      raceTypeSummary = 'Lap Record Hunt Summary: ';
     }
     if (gameObject.race.typeOfRace === 'Single Race') {
-      raceTypeSummary = gameObject.race.track.name + ' grand prix summary: ';
+      raceTypeSummary = gameObject.race.track.name + 'Race Summary: ';
     }
     if (gameObject.race.typeOfRace === 'Championships Series') {
-      raceTypeSummary = gameObject.race.track.name + ' grand prix summary: ';
+      raceTypeSummary = gameObject.race.track.name + 'Race Summary: ';
     // give championship points placeholders and points
     gameObject.race.cars.forEach( (car) => {
       const oldPoints = gameObject.standings.filter( oldP => oldP.driver === car.driver ); 
@@ -95,12 +90,7 @@ class AfterRace extends Component {
     // if still left races.
     if (gameObject.race.currentRace + 1 < tracks.length) {
       console.log('c r, t l', gameObject.race.currentRace, tracks.length);
-     // make next race button 
-     /* that button below doesnt seem to work like that in react... */
-    continueButton.innerHTML = '<input type= "button" value= "Next Race" onclick= {this.buttonClick}>';
-     // change to next track 
-    //gameObject.race.track[0] = tracks[gameObject.race.currentRace];
-    gameObject.race.currentRace++;
+      gameObject.race.currentRace++;
     } else {
       // congratulate for completing the season.
       raceTypeSummary = 'Congratulations for completing the season!';
@@ -155,6 +145,13 @@ class AfterRace extends Component {
   // if data was modificated, make the update.
   }
   render() {
+    let button1 = '';
+    let button2 = <input type= "button" value= "Back to Main Menu" onClick= {this.buttonClick}/>;
+    if (this.state.gameObject !== '') {
+      if (this.state.gameObject.race.currentRace < tracks.length) {
+        button1 = <input type= "button" value= "Continue to next race" onClick= {this.buttonClick}/>;
+      }
+    }
     return (
       <div id="container">    
         <p id = "raceType">
@@ -166,6 +163,8 @@ class AfterRace extends Component {
         <p id ="showStandings">
         </p>
         <p id ="continueButton">
+          {button1} <br/><br/>
+          {button2}
         </p>
         {/*} need to have a canvas here too so that tracks can be called. */}
         <canvas id="kanveesi" width="150" height="50">
