@@ -133,7 +133,7 @@ class AfterRace extends Component {
     }
     // if still left races.
     if (gameObject.race.currentRace + 1 < tracks.length) {
-      console.log('c r, t l', gameObject.race.currentRace, tracks.length);
+      console.log('c-r, t-l', gameObject.race.currentRace, tracks.length);
       gameObject.race.currentRace++;
     } else {
       // congratulate for completing the season.
@@ -146,8 +146,8 @@ class AfterRace extends Component {
         //const testChamp = [{name: 'kek', car: 'ferrari', colors: ['white', 'green']}];
         //addChampion(testChamp);
         */
-        const newChamp = [{name: gameObject.car.driver, car: gameObject.car.name, colors: [gameObject.car.color, gameObject.car.color2]}];
-        addChampion(newChamp);
+        //const newChamp = [{name: gameObject.car.driver, car: gameObject.car.name, colors: [gameObject.car.color, gameObject.car.color2]}];
+        //addChampion(newChamp);
       }
     }
   }
@@ -192,7 +192,7 @@ class AfterRace extends Component {
     let button1 = '';
     let button2 = <input type= "button" value= "Back to Main Menu" onClick= {this.buttonClick}/>;
     if (this.state.gameObject !== '') {
-      if (this.state.gameObject.race.currentRace < tracks.length) {
+      if (this.state.gameObject.race.currentRace +1 < tracks.length) {
         button1 = <input type= "button" value= "Continue to next race" onClick= {this.buttonClick}/>;
       }
     }
