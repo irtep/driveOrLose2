@@ -124,9 +124,9 @@ td {
   padding: 10px;
   font-size: 10px;
 }
-/* this can be enabled if need to test something*/
+/* this can be enabled if need to test something , block/none */
 #quickButton {
-  display: none;
+  display: block;
 }
 #version {
   font-size: 8px;

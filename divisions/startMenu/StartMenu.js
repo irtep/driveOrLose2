@@ -13,6 +13,20 @@ class StartMenu extends Component {
     }
     this.checkInfo = this.checkInfo.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.quickStart = this.quickStart.bind(this);
+  }
+  // quick start button, that starts quick game, for testing purposes
+  quickStart() {
+    const gameObject = {...this.state.gameObject};
+    gameObject.car.driver = 'TestMan';
+    gameObject.car.name = 'Rond Comet R';
+    gameObject.car.color1 = 'red';
+    gameObject.car.color2 = 'blue';
+    gameObject.race.typeOfRace = 'Lap Record Hunt';
+    gameObject.race.track = 'Finse Factory';
+    const dataToSend = {status: 'readyForRace', gameObject: gameObject}
+    // send request to start the race and gameObject to parent
+    this.props.sendToParent(dataToSend); 
   }
   startGame() {
     const dataToSend = {status: 'readyForRace', gameObject: this.state.gameObject}
@@ -208,7 +222,8 @@ class StartMenu extends Component {
               </select>
             </form> 
             <br/>
-            <input id= "startButton" type= "button" value= "Start" onClick= {this.startGame}/>
+            <input id= "startButton" type= "button" value= "Start" onClick= {this.startGame}/><br/>
+            <input id= "quickButton" type= "button" value= "Quick start" onClick= {this.quickStart}/>
           </div>
           <div id= "helps">
             GAME INFO:
