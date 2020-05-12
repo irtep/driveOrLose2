@@ -9,29 +9,27 @@ let gameObject = null;
 
 export function carMovement(car, gameObject) {
   const stats = car.statuses;
-  //let slipFactory = 0;
-  
+  let sliding = 0;
   // maximum damage with one collision
   const maxDam = car.maxHitPoints / 4;
   // need these old values if collisions
   let oldX = JSON.parse(JSON.stringify(car.x));
   let oldY = JSON.parse(JSON.stringify(car.y));
-
   // give lost control back if slow enough
   if (stats.grip > stats.speed) {stats.outOfControl = false;}
-  
   // if advancing
+  if (stats.grip < stats.speed) {
+    sliding = stats.speed - stats.grip;
+  }
   if (stats.speed > 0) {
-    const speeds = getSpeeds(stats.heading, stats.speed);
-
+    const speeds = getSpeedsSliding(stats.heading, stats.speed, sliding);
+    //const speeds = getSpeeds(stats.heading, stats.speed);
     // decrease of speed by friction
     stats.isMoving = true;
     stats.speed -= stats.friction; 
-   
     // if too much speed for grip and turning, car is out of control:
     /*
     if (stats.speed > stats.grip) {
-      
       slipFactory = stats.speed - stats.grip;
     }
     */ 
@@ -40,15 +38,12 @@ export function carMovement(car, gameObject) {
     // collision test:
     updateXandY(gameObject.race.cars, gameObject);
     const colTest = collisionTest(car, gameObject);
-        
     if (colTest !== false){ 
-          
       car.x = oldX;
       car.y = oldY;
       updateXandY(gameObject.race.cars, gameObject);
       stats.speed = 0;
       stats.isMoving = false;
-          
       // damage test:
       const damageResults = damageDealer(car, colTest);
       if (damageResults.car1 > maxDam) { damageResults.car1 = maxDam; }
@@ -62,32 +57,25 @@ export function carMovement(car, gameObject) {
       // no collision, nothing special happens 
     }
   }
-    
     // if stopped
     if (stats.speed < 0 && stats.reverse === false) {
       stats.isMoving = false;    
     }
-  
     // if reversing
     if (stats.speed <= 0 && stats.reverse === true && car.hitPoints > 0) {
-        
       const speeds = getSpeeds(stats.heading, -0.6);
-      
       car.x += -speeds.x;
       car.y += speeds.y;
       stats.isMoving = true;   
       // collision test:
       updateXandY(gameObject.race.cars, gameObject);
       const colTest = collisionTest(car, gameObject);
-      
         if (colTest !== false) { 
-           
           car.x = oldX;
           car.y = oldY;
           updateXandY(gameObject.race.cars, gameObject);
           stats.speed = 0;
           stats.isMoving = false;
-          
           // damage test:
           const damageResults = damageDealer(car, colTest);
           if (damageResults.car1 > maxDam) { damageResults.car1 = maxDam; }
@@ -98,12 +86,9 @@ export function carMovement(car, gameObject) {
           colTest.hitPoints = colTest.hitPoints - damageResults.car2;
         }
         else { 
-        
-          // no collision
-          
+          // no collision     
         }
     }
-  
     // if accelerating
     if (stats.accelerate === true && stats.outOfControl === false) { 
       car.accelerate();    
@@ -111,31 +96,25 @@ export function carMovement(car, gameObject) {
     // if braking
     if (stats.braking === true && stats.speed > -1) { 
       car.brake();    
- 
     } else {
       // release breaks
       stats.friction = stats.originalFriction;
     }
-
     // if turning
     // modifications caused by possibly too much speed:
     // save original value:
     const origVal = JSON.parse(JSON.stringify(car.statuses.turnRate));
     //car.statuses.turnRate -= slipFactory;
-    
-    if (stats.turnRight === true && stats.outOfControl === false) { 
+    if (stats.turnRight === true /*&& stats.outOfControl === false*/) { 
       car.turnRight();
     }
-
     // if turning
-    if (stats.turnLeft === true && stats.outOfControl === false) { 
+    if (stats.turnLeft === true /*&& stats.outOfControl === false*/) { 
       car.turnLeft();    
     }
-    
     // reset value:
     car.statuses.turnRate = origVal;    
 }
-
 export function terminateRace(gameObj) {
   
   // save gameObject
@@ -160,6 +139,7 @@ export function giveStats() {  // just informal stuff in development and bugfix 
   infoPlace.innerHTML = 'speed: '+ gameObject.race.cars[0].statuses.speed+ ' turnRate: '+ gameObject.race.cars[0].statuses.turnRate;
   
 }
+/*
 // with grip
 export function getSpeeds (rotation, speed) {
   const to_angles = Math.PI/180;
@@ -168,6 +148,16 @@ export function getSpeeds (rotation, speed) {
 		y: Math.sin(rotation * to_angles) * speed,
 		x: Math.cos(rotation * to_angles) * speed * -1,
 	};
+} */
+// with grip
+export function getSpeeds (rotation, speed) {
+  const to_angles = Math.PI/180;
+  return {
+		y: Math.sin(rotation * to_angles) * speed,
+		x: Math.cos(rotation * to_angles) * speed * -1,
+	};
+  //console.log('returning: ', Math.sin(rotation * to_angles) * speed, Math.cos(rotation * to_angles) * speed * -1);
+  //console.log('slide? ', Math.sin(rotation * to_angles), );
 }
 // when lost grip:
 export function getSpeedsSliding (rotation, speed, slide) {
@@ -179,24 +169,19 @@ export function getSpeedsSliding (rotation, speed, slide) {
   // add slide value to that who has smaller absolute number
   if (absolutes.x >= absolutes.y) {
     const posOrNeg = Math.sign(speedY);
-    
     if (posOrNeg == -1) {
       speedY -= slide;     
     } else {
       speedY += slide;
     }
-       
   } else {
     const posOrNeg = Math.sign(speedX);
-    
     if (posOrNeg == -1) {
       speedX -= slide;     
     } else {
       speedX += slide;
-    }  
-    
+    }   
   }
-  
   return {
 		y: speedY,
 		x: speedX,

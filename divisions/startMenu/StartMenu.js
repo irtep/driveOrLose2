@@ -19,7 +19,7 @@ class StartMenu extends Component {
   quickStart() {
     const gameObject = {...this.state.gameObject};
     gameObject.car.driver = 'TestMan';
-    gameObject.car.name = 'Rond Comet R';
+    gameObject.car.name = 'Rond Comet mk1';
     gameObject.car.color1 = 'red';
     gameObject.car.color2 = 'blue';
     gameObject.race.typeOfRace = 'Lap Record Hunt';
