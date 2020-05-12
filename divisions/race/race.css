@@ -20,9 +20,9 @@
 */
 #kanveesi {
   display: block;
-  background-color: lightGrey;
+  background-color: lightGrey;/*
   border-style: solid;
   border-radius: 5px;
   border-width: 6px;
-  border-color: black;
+  border-color: black;*/
 }

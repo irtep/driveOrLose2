@@ -11,6 +11,7 @@
 .resultColors {
   text-shadow: 1px 0 0 grey, -1px 0 0 grey, 0 1px 0 grey, 0 -1px 0 grey, 1px 1px grey, -1px -1px 0 grey, 1px -1px 0 grey, -1px 1px 0 grey; 
 }
+/*
 #kanveesi {
   display: none;
   /*
@@ -19,7 +20,7 @@
   border-radius: 5px;
   border-width: 6px;
   border-color: black;*/ 
-}
+/*}*/
 td {
   width: 16%;
   border-style: solid;

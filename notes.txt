@@ -1,3 +1,10 @@
+bugs:
+  doesnt stop to side walls... it looks like the walls are too small
+
+  this happens at afterRace:
+  Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method.
+    in Race (created by App)
+
 how to add sounds and music:
  https://www.w3schools.com/graphics/game_sound.asp
 
