@@ -13,8 +13,52 @@ class AfterRace extends Component {
     }
     this.buttonClick = this.buttonClick.bind(this);
   }
-  buttonClick() {
-    console.log('button clicked');  
+  buttonClick(clicked) {
+    console.log('button clicked', clicked.target.value);  
+    switch (clicked.target.value) {
+        case 'Back to Main Menu':
+          window.location = "https://driveorlose2.stackblitz.io/";
+        break;
+        case 'Continue to next race':
+          const gameObject = {...this.state.gameObject};
+            // resets some stuff from cars:
+          gameObject.car.statuses.speed = 0;
+          gameObject.car.statuses.heading = 0;
+          gameObject.car.statuses.accelerate = false;
+          gameObject.car.statuses.reverse = false;
+          gameObject.car.statuses.turnRight = false;
+          gameObject.car.statuses.turnLeft = false;
+          // reset standings place:
+          gameObject.standings = [];
+          gameObject.race.cars.forEach( (theCar) => {
+            const pointsEntry = {driver: theCar.driver, points: theCar.points}
+            theCar.statuses.speed = 0;
+            theCar.statuses.heading = 0;
+            theCar.statuses.accelerate = false;
+            theCar.statuses.reverse = false;
+            theCar.statuses.turnRight = false;
+            theCar.statuses.turnLeft = false;
+            gameObject.standings.push(pointsEntry);
+          });
+          // reset stuff from previous race
+          gameObject.race.cars = [];
+          gameObject.race.lastLaps = [];
+          gameObject.race.results = [];
+          gameObject.race.started = false;
+          gameObject.race.terminated = false;
+          // save gameObject
+          //this.setState({gameObject});
+          const dataToSend = {status: 'readyForRace', gameObject: gameObject};
+          this.props.sendToParent(dataToSend);
+          // to props too...or maybe only to props...yeah
+          /**    const dataToSend = {status: 'raceTerminated', gameObject: this.state.gameObject}
+    // send request to show after race screen and gameObject to parent
+    this.props.sendToParent(dataToSend);  */
+          //localStorage.setItem('Go', JSON.stringify(gameObject)); 
+          // lets go to race
+        break;
+        default: console.log(' cant find targets value ');
+    }
   }
   componentDidMount() {
     // set gameObjects race started to false

@@ -1,4 +1,7 @@
 bugs:
+  after completing the last race of championships, it didnt stop when race stopped, i needed to break my car.
+  also at afterRace it still offered the next race.
+
   doesnt stop to side walls... it looks like the walls are too small
 
   this happens at afterRace:
