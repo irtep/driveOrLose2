@@ -10,20 +10,27 @@ let gameObject = null;
 export function carMovement(car, gameObject) {
   const stats = car.statuses;
   let sliding = 0;
+  if (stats.lastStableHeading === null || stats.lastStableHeading === undefined) {
+    stats.lastStableHeading = 0;
+  }
   // maximum damage with one collision
   const maxDam = car.maxHitPoints / 4;
   // need these old values if collisions
   let oldX = JSON.parse(JSON.stringify(car.x));
   let oldY = JSON.parse(JSON.stringify(car.y));
   // give lost control back if slow enough
-  if (stats.grip > stats.speed) {stats.outOfControl = false;}
-  // if advancing
-  if (stats.grip < stats.speed) {
+  if (stats.grip > stats.speed) {
+    stats.outOfControl = false;
+    stats.lastStableHeading = JSON.parse(JSON.stringify(stats.heading));
+  } else {
+    stats.outOfControl = true;
     sliding = stats.speed - stats.grip;
   }
+  // if advancing
   if (stats.speed > 0) {
-    const speeds = getSpeedsSliding(stats.heading, stats.speed, sliding);
-    //const speeds = getSpeeds(stats.heading, stats.speed);
+    //const speeds = getSpeedsSliding(stats.heading, stats.speed, sliding);
+    const speeds = getSpeeds(stats.heading, stats.speed, stats.outOfControl, stats.lastStableHeading, sliding, 
+    stats.turnLeft, stats.turnRight);
     // decrease of speed by friction
     stats.isMoving = true;
     stats.speed -= stats.friction; 
@@ -135,12 +142,11 @@ export function giveStats() {  // just informal stuff in development and bugfix 
   gameObject.race.cars[0].lastCheckPoint + '/' + gameObject.race.cars[0].nextCheckPoint + 'lap time: ' +
   gameObject.race.currentLapTime.minutes + ':' + gameObject.race.currentLapTime.seconds + ':' + gameObject.race.currentLapTime.milliseconds
   */
-  
   infoPlace.innerHTML = 'speed: '+ gameObject.race.cars[0].statuses.speed+ ' turnRate: '+ gameObject.race.cars[0].statuses.turnRate;
   
 }
 /*
-// with grip
+// with grip, this if from original version
 export function getSpeeds (rotation, speed) {
   const to_angles = Math.PI/180;
   
@@ -150,31 +156,45 @@ export function getSpeeds (rotation, speed) {
 	};
 } */
 // with grip
-export function getSpeeds (rotation, speed) {
+export function getSpeeds (rotation, speed, outOfControl, lastStableHeading, sliding, turnLeft, turnRight) {
   const to_angles = Math.PI/180;
-  return {
-		y: Math.sin(rotation * to_angles) * speed,
-		x: Math.cos(rotation * to_angles) * speed * -1,
-	};
-  //console.log('returning: ', Math.sin(rotation * to_angles) * speed, Math.cos(rotation * to_angles) * speed * -1);
-  //console.log('slide? ', Math.sin(rotation * to_angles), );
+  //console.log('compare rotation and last stable ', rotation, lastStableHeading);
+  if (outOfControl && turnLeft) {
+    return {
+		  y: Math.sin(lastStableHeading+20 * to_angles) * speed+20,
+		  x: Math.cos(lastStableHeading+20 * to_angles) * speed+20 * -1,
+	  };
+  }  
+  else if (outOfControl && turnRight) {
+    return {
+		  y: Math.sin(lastStableHeading * to_angles) * speed,
+		  x: Math.cos(lastStableHeading * to_angles) * speed * -1,
+	  };
+  } 
+  else {
+    return {
+		  y: Math.sin(rotation * to_angles) * speed,
+		  x: Math.cos(rotation * to_angles) * speed * -1,
+	  };
+  }
 }
 // when lost grip:
-export function getSpeedsSliding (rotation, speed, slide) {
+export function getSpeedsSliding (rotation, speed, outOfControl, lastStableHeading, sliding, turnLeft, turnRight) {
   const to_angles = Math.PI/180;
   let speedX = Math.cos(rotation * to_angles) * speed * -1;
   let speedY = Math.sin(rotation * to_angles) * speed;
   const absolutes = {x: Math.abs(speedX), y: Math.abs(speedY)};
-  
+  if (slide !== 0) { slide = slide + 5; }
   // add slide value to that who has smaller absolute number
-  if (absolutes.x >= absolutes.y) {
+  if (absolutes.x >= absolutes.y && (turnLeft || turnRight)) {
     const posOrNeg = Math.sign(speedY);
     if (posOrNeg == -1) {
       speedY -= slide;     
     } else {
       speedY += slide;
     }
-  } else {
+  } 
+  else if (absolutes.x < absolutes.y && (turnLeft || turnRight)){
     const posOrNeg = Math.sign(speedX);
     if (posOrNeg == -1) {
       speedX -= slide;     
