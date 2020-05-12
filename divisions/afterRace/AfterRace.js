@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import { aiCars } from '../../data/aiDrivers.js';
+import { tracks } from '../../data/tracks.js';
 import './afterRace.css';
 
 class AfterRace extends Component {
@@ -18,6 +19,8 @@ class AfterRace extends Component {
     // set gameObjects race started to false
     this.setState({gameObject: this.props.gameObject});
     console.log('props: ', this.props);
+    // hide canvas
+    document.getElementById('kanveesi').style.display = 'none';
   }
   componentDidUpdate() {
     const gameObject = {...this.state.gameObject};
@@ -27,15 +30,21 @@ class AfterRace extends Component {
     const showStandings = document.getElementById('showStandings');
     const continueButton = document.getElementById('continueButton');
     let raceTypeSummary = null;
- 
-    if (gameObject.race.typeOfRace === 'LapRecordHunt') {
+ /**          case 'Lap Record Hunt':
+            selectCircuitForm.style.opacity = 1;
+          break;
+          case 'Single Race':
+            selectCircuitForm.style.opacity = 1;
+          break;
+          case 'Championships Series': */
+    if (gameObject.race.typeOfRace === 'Lap Record Hunt') {
       raceTypeSummary = 'Lap record hunt summary: ';
     }
-    if (gameObject.race.typeOfRace === 'singleRace') {
-      raceTypeSummary = gameObject.race.track[0].name + ' grand prix summary: ';
+    if (gameObject.race.typeOfRace === 'Single Race') {
+      raceTypeSummary = gameObject.race.track.name + ' grand prix summary: ';
     }
-    if (gameObject.race.typeOfRace === 'FullRacingSeason') {
-      raceTypeSummary = gameObject.race.track[0].name + ' grand prix summary: ';
+    if (gameObject.race.typeOfRace === 'Championships Series') {
+      raceTypeSummary = gameObject.race.track.name + ' grand prix summary: ';
     // give championship points placeholders and points
     gameObject.race.cars.forEach( (car) => {
       const oldPoints = gameObject.standings.filter( oldP => oldP.driver === car.driver ); 
@@ -87,7 +96,8 @@ class AfterRace extends Component {
     if (gameObject.race.currentRace + 1 < tracks.length) {
       console.log('c r, t l', gameObject.race.currentRace, tracks.length);
      // make next race button 
-    continueButton.innerHTML = '<input type= "button" value= "Next Race" onclick= "nextRace()">';
+     /* that button below doesnt seem to work like that in react... */
+    continueButton.innerHTML = '<input type= "button" value= "Next Race" onclick= {this.buttonClick}>';
      // change to next track 
     //gameObject.race.track[0] = tracks[gameObject.race.currentRace];
     gameObject.race.currentRace++;
@@ -157,7 +167,6 @@ class AfterRace extends Component {
         </p>
         <p id ="continueButton">
         </p>
-        <input type= "button" value= "Continue" onClick= {this.buttonClick}/>
         {/*} need to have a canvas here too so that tracks can be called. */}
         <canvas id="kanveesi" width="150" height="50">
           Your browser does not support canvas.

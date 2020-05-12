@@ -66,6 +66,8 @@ class StartMenu extends Component {
     const nameF = document.getElementById('yourName');
     const colorF = document.getElementById('selectColor');
     const colorF2 = document.getElementById('selectColor2');
+    // hide canvas
+    document.getElementById('kanveesi').style.display = 'none';
   
     // Table to show car details:
     vehicles.forEach( (vehicle) => {

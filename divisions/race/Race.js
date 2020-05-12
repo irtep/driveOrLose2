@@ -119,6 +119,8 @@ class Race extends Component {
   }
   componentDidMount() {
     this.setState({gameObject: this.props.gameObject});
+    // show canvas
+    document.getElementById('kanveesi').style.display = 'block';
   }
   componentDidUpdate() {
     //console.log('state of race: ', this.state);
