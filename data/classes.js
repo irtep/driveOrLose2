@@ -195,28 +195,28 @@ export class Car extends AllRects {
   reverse() {}
   turnLeft() {
     if (this.statuses.isMoving === true) {
-      if (this.statuses.speed < this.statuses.grip) {
+      //if (this.statuses.speed < this.statuses.grip) {
         this.statuses.heading -=
           this.statuses.turnRate - this.statuses.speed / 7;
-      } else {
+     /* } else {
         this.statuses.heading -=
           this.statuses.turnRate -
           this.statuses.speed / 7 -
           this.statuses.grip / 4;
-      }
+      }*/
     }
   }
   turnRight() {
     if (this.statuses.isMoving === true) {
-      if (this.statuses.speed < this.statuses.grip) {
+     // if (this.statuses.speed < this.statuses.grip) {
         this.statuses.heading +=
           this.statuses.turnRate - this.statuses.speed / 7;
-      } else {
+    /*  } else {
         this.statuses.heading +=
           this.statuses.turnRate -
           this.statuses.speed / 7 +
           this.statuses.grip / 4;
-      }
+      }*/
     }
   }
 }

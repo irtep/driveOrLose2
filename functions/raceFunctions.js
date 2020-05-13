@@ -9,10 +9,10 @@ let gameObject = null;
 
 export function carMovement(car, gameObject) {
   const stats = car.statuses;
-  let sliding = 0;
-  if (stats.lastStableHeading === null || stats.lastStableHeading === undefined) {
-    stats.lastStableHeading = 0;
-  }
+  //let sliding = 0;
+  //if (stats.lastStableHeading === null || stats.lastStableHeading === undefined) {
+   // stats.lastStableHeading = 0;
+ // }
   // maximum damage with one collision
   const maxDam = car.maxHitPoints / 4;
   // need these old values if collisions
@@ -21,16 +21,16 @@ export function carMovement(car, gameObject) {
   // give lost control back if slow enough
   if (stats.grip > stats.speed) {
     stats.outOfControl = false;
-    stats.lastStableHeading = JSON.parse(JSON.stringify(stats.heading));
+   // stats.lastStableHeading = JSON.parse(JSON.stringify(stats.heading));
   } else {
     stats.outOfControl = true;
-    sliding = stats.speed - stats.grip;
+   // sliding = stats.speed - stats.grip;
   }
   // if advancing
   if (stats.speed > 0) {
-    //const speeds = getSpeedsSliding(stats.heading, stats.speed, sliding);
-    const speeds = getSpeeds(stats.heading, stats.speed, stats.outOfControl, stats.lastStableHeading, sliding, 
-    stats.turnLeft, stats.turnRight);
+    const speeds = getSpeeds(stats.heading, stats.speed);
+    //const speeds = getSpeeds(stats.heading, stats.speed, stats.outOfControl, stats.lastStableHeading, sliding, 
+    //stats.turnLeft, stats.turnRight);
     // decrease of speed by friction
     stats.isMoving = true;
     stats.speed -= stats.friction; 
@@ -145,7 +145,7 @@ export function giveStats() {  // just informal stuff in development and bugfix 
   infoPlace.innerHTML = 'speed: '+ gameObject.race.cars[0].statuses.speed+ ' turnRate: '+ gameObject.race.cars[0].statuses.turnRate;
   
 }
-/*
+
 // with grip, this if from original version
 export function getSpeeds (rotation, speed) {
   const to_angles = Math.PI/180;
@@ -154,8 +154,9 @@ export function getSpeeds (rotation, speed) {
 		y: Math.sin(rotation * to_angles) * speed,
 		x: Math.cos(rotation * to_angles) * speed * -1,
 	};
-} */
+} 
 // with grip
+/*
 export function getSpeeds (rotation, speed, outOfControl, lastStableHeading, sliding, turnLeft, turnRight) {
   const to_angles = Math.PI/180;
   //console.log('compare rotation and last stable ', rotation, lastStableHeading);
@@ -178,7 +179,9 @@ export function getSpeeds (rotation, speed, outOfControl, lastStableHeading, sli
 	  };
   }
 }
+*/
 // when lost grip:
+/*
 export function getSpeedsSliding (rotation, speed, outOfControl, lastStableHeading, sliding, turnLeft, turnRight) {
   const to_angles = Math.PI/180;
   let speedX = Math.cos(rotation * to_angles) * speed * -1;
@@ -207,7 +210,7 @@ export function getSpeedsSliding (rotation, speed, outOfControl, lastStableHeadi
 		x: speedX,
 	};
 }
-
+*/
 // updating weight, color, cost, armour, hitPoints and car handling stats.
 export function updateCar(carOnCase) {
   carOnCase.weight = carOnCase.chassis.weight + carOnCase.armour.weight + carOnCase.motor.weight + carOnCase.tires.weight;
