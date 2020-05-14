@@ -12,25 +12,9 @@ export const tracks = [
     obstacles: [
       // borders: RectObstacles: x, y, w, h, color, angle, name
       new RectObstacle(0, -55, canv.width, 60, "black", 0, "borderUp"),
-      new RectObstacle(
-        0,
-        canv.height - 5,
-        canv.width,
-        30,
-        "black",
-        0,
-        "borderBottom"
-      ),
+      new RectObstacle(0, canv.height - 5, canv.width, 30, "black", 0,"borderBottom" ),
       new RectObstacle(-25, 0, 30, canv.height, "black", 0, "borderLeft"),
-      new RectObstacle(
-        canv.width - 5,
-        0,
-        30,
-        canv.height,
-        "black",
-        0,
-        "borderRight"
-      ),
+      new RectObstacle(canv.width - 5, 0, 30, canv.height, "black", 0, "borderRight"),
       // buildings:
       new RectObstacle(100, 150, 100, 100, "black", 0, "house1"),
       new RectObstacle(340, 250, 100, 100, "black", 0, "house2"),
