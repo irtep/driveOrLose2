@@ -592,11 +592,6 @@ export function setupRace(gameObject){
       gameObject.race.cars.push(createNewCar(aiCars[2], false, gameObject));
       // starting from track 1
       if (gameObject.race.currentRace === undefined) {
-        /*
-        gameObject.race.track = [];
-        gameObject.race.track.push(tracks[0]);
-        gameObject.race.currentRace = 0;
-        */
         gameObject.race.track = tracks[0];
         gameObject.race.currentRace = 0;  
       } else {
@@ -612,15 +607,6 @@ export function setupRace(gameObject){
     const nameMatch = nameChecker(gameObject.race.cars[0].driver, gameObject.race.cars[i].driver);
     nameMatch ? gameObject.race.cars[i].driver = 'Josue' : console.log('name ok');
   }
-  // ai cars:
-  //createNewCar(aiCars[0], false);
-  //createNewCar(aiCars[1], false);
-  //createNewCar(aiCars[2], false); 
-   // track 0: factory, 1: city center
-  // if track is not selected
-  //if (gameObject.race.track.length === 0) {
-  //  gameObject.race.track.push(tracks[0]);
-  //}
   // finish x and y setup and get angles.
   gameObject.race.cars.forEach((carInTurn) => {  
     carInTurn.x = carInTurn.pieces.hull.x;
@@ -642,43 +628,8 @@ export function setupRace(gameObject){
   gameObject.race.totalLaps = 4;
   gameObject.race.currentLapTime = {minutes: 0, seconds: 0, milliseconds: 0};
   gameObject.race.lastLaps = [];
-  // there could be first 6 seconds countdown to start the race/time attack.
-  //let seconds = 6; // to start race
-  //const infoPlace = document.getElementById('infoPlace');
-  /*
-  const countDown = window.setInterval(() => {
-    seconds--;
-    infoPlace.innerHTML = 'Get ready! Race starts in: ' + seconds;
-    if (seconds === 0) {
-      infoPlace.innerHTML = 'Race is On!'
-      // give cars hit points to allow it move
-      gameObject.race.cars.forEach((carInTurn) => {  
-        carInTurn.hitPoints = JSON.parse(JSON.stringify(carInTurn.maxHitPoints));
-      });
-      gameObject.race.started = true;
-      // terminate this calculator:
-      window.clearInterval(countDown);
-    }
-  }, 1000);
-  */
-  // start lap clock
-  /*
-  const lapTimer = window.setInterval(() => {
-    if (gameObject.race.cars[0].currentLap > gameObject.race.totalLaps) {window.clearInterval(lapTimer)};
-    // update lap time
-    if (gameObject.race.currentLapTime.milliseconds < 99) {gameObject.race.currentLapTime.milliseconds++;} else {
-      gameObject.race.currentLapTime.milliseconds = 0;
-      if (gameObject.race.currentLapTime.seconds < 59) {gameObject.race.currentLapTime.seconds++;} else {          
-        gameObject.race.currentLapTime.seconds = 0;
-        gameObject.race.currentLapTime.minutes++;
-      }
-    }
-  }, 10);
-  */
-  //console.log('go: ', gameObject);
   return gameObject;
 }
-
 /**
  * Provides requestAnimationFrame in a cross browser way.
  * http://paulirish.com/2011/requestanimationframe-for-smart-animating/
