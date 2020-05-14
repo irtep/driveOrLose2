@@ -9,7 +9,7 @@ let gameObject = null;
 
 export function carMovement(car, gameObject) {
   const stats = car.statuses;
-  //let sliding = 0;
+  let sliding = 0;
   //if (stats.lastStableHeading === null || stats.lastStableHeading === undefined) {
    // stats.lastStableHeading = 0;
  // }
@@ -18,13 +18,15 @@ export function carMovement(car, gameObject) {
   // need these old values if collisions
   let oldX = JSON.parse(JSON.stringify(car.x));
   let oldY = JSON.parse(JSON.stringify(car.y));
+  // need old value of heading for sliding
+  const oldHeading = JSON.parse(JSON.stringify(stats.heading));
   // give lost control back if slow enough
   if (stats.grip > stats.speed) {
     stats.outOfControl = false;
    // stats.lastStableHeading = JSON.parse(JSON.stringify(stats.heading));
   } else {
     stats.outOfControl = true;
-   // sliding = stats.speed - stats.grip;
+    sliding = (stats.speed - stats.grip) * 2;
   }
   // if advancing
   if (stats.speed > 0) {
@@ -97,7 +99,7 @@ export function carMovement(car, gameObject) {
         }
     }
     // if accelerating
-    if (stats.accelerate === true && stats.outOfControl === false) { 
+    if (stats.accelerate === true /*&& stats.outOfControl === false*/) { 
       car.accelerate();    
     }
     // if braking
@@ -114,10 +116,30 @@ export function carMovement(car, gameObject) {
     //car.statuses.turnRate -= slipFactory;
     if (stats.turnRight === true /*&& stats.outOfControl === false*/) { 
       car.turnRight();
+      if (stats.outOfControl) {
+        const slidingSpeeds = getSpeeds(oldHeading-45, sliding);
+        const headingFix = getSpeeds(stats.heading, stats.speed-sliding)
+        car.x = oldX;
+        car.y = oldY;
+        car.x += -slidingSpeeds.x;
+        car.y += slidingSpeeds.y;
+        car.x += -headingFix.x;
+        car.y += headingFix.y;
+      }
     }
     // if turning
     if (stats.turnLeft === true /*&& stats.outOfControl === false*/) { 
-      car.turnLeft();    
+      car.turnLeft();
+      if (stats.outOfControl) {
+        const slidingSpeeds = getSpeeds(oldHeading+45, sliding);
+        const headingFix = getSpeeds(stats.heading, stats.speed-sliding)
+        car.x = oldX;
+        car.y = oldY;
+        car.x += -slidingSpeeds.x;
+        car.y += slidingSpeeds.y;
+        car.x += -headingFix.x;
+        car.y += headingFix.y;
+      }    
     }
     // reset value:
     car.statuses.turnRate = origVal;    
