@@ -183,9 +183,9 @@ class StartMenu extends Component {
       <div id= "container">
       
       <header id= "theHeader" className= "divs"> 
-        <span id= "gameTitle">Drive Or Lose 2.</span>
+        <span id= "gameTitle" className= "fadingIn">Drive Or Lose 2.</span>
         <span id="version">beta 0.1</span>
-      </header>
+      </header> 
 
       <div id= "idForm" className= "divs">
         <div id= "container3">

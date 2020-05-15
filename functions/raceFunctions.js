@@ -26,7 +26,7 @@ export function carMovement(car, gameObject) {
    // stats.lastStableHeading = JSON.parse(JSON.stringify(stats.heading));
   } else {
     stats.outOfControl = true;
-    sliding = (stats.speed - stats.grip) * 1.5;
+    sliding = (stats.speed - stats.grip) * 0.8;
   }
   // if advancing
   if (stats.speed > 0) {

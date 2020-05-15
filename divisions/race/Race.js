@@ -123,7 +123,7 @@ class Race extends Component {
     document.getElementById('kanveesi').style.display = 'block';
   }
   componentDidUpdate() {
-    console.log('state.gameObject.track ', this.state.gameObject.race.track);
+    //console.log('state.gameObject.track ', this.state.gameObject.race.track);
     //console.log('state of race: ', this.state);
     const infoPlace = document.getElementById('infoPlace');
     let seconds = 6; // to start race
