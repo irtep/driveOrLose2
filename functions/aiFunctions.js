@@ -1,6 +1,5 @@
 import { updateXandY, collisionTest, getSpeeds } from './raceFunctions.js';
 import { TestBar } from '../data/classes.js';
-
 // radar results nForward = near forward, middistance = m, far = f
 let nForward = 'clear';
 let nLeft = 'clear';
@@ -11,7 +10,6 @@ let mRight = 'clear';
 let fForward = 'clear';
 let fLeft = 'clear';
 let fRight = 'clear';
-
 export function aiDriverBrain(aiCar, gameObject) {
   //const ip2 = document.getElementById('infoPlace2');
   //ip2.innerHTML = '';
@@ -23,12 +21,9 @@ export function aiDriverBrain(aiCar, gameObject) {
     y: nextCp[0].y + (nextCp[0].h / 2)
   }  
   let radars = [nForward, nLeft, nRight, mForward, mLeft, mRight, fForward, fLeft, fRight];
-  
   for (let i = 0; i < radars.length; i++) {
-    
     radars[i] = 'clear';
   }  
-  
   // release all pedals and wheelings
   aiCar.statuses.turnLeft = false;
   aiCar.statuses.turnRight = false;
@@ -37,7 +32,6 @@ export function aiDriverBrain(aiCar, gameObject) {
   aiCar.statuses.brake = false;
   
   const distanceNow = distanceCheck(centerOfCar, centerOfNextCheckPoint);
-  
   // find the best way to go
   let bestResult = 'forward';
   let shortestDistance = null;
@@ -55,16 +49,13 @@ export function aiDriverBrain(aiCar, gameObject) {
   
   // choose direction by checking where is next checkpoint
   if (distanceIfForward > distanceIfLeft) { 
-    
     bestResult = 'turn left';
   }
   if (distanceIfForward > distanceIfRight) { 
-    
     bestResult = 'turn right';
   }
-  
   // gas!
-  let safeSpeed = aiCar.statuses.grip;
+  let safeSpeed = aiCar.statuses.grip + 1;
   
   if (safeSpeed > 8) {safeSpeed = 8}
   

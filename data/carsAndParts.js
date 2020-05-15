@@ -1,7 +1,7 @@
 // CARS AND ACCESSORIES
 // Vehicles:
 export const vehicles = [
-  {name: 'Rond Comet mk1', chassis: 'Rond Comet', motor: 'Rond V8', tires: 'Rockstone standard', armour: 'Defender XL',
+  {name: 'Rond Comet mk1', chassis: 'Rond Comet', motor: 'Rond V10', tires: 'Rockstone standard', armour: 'Defender XL',
   description: 'Classic from iconic fabricant Rond. Comet has powerful engine and good armours. Fast, but heavy.',
    stats: 'Acceleration: ** <br> TopSpeed: **** <br> Grip: ** <br> Recommendation: Good for practice, hard to make records.'
     },
@@ -13,7 +13,7 @@ export const vehicles = [
   description: 'Quick racing car from "leading star" Zermeces-Lenz. Not recommended for inexperienced drivers, but in experienced hands this is fast.',
    stats: 'Acceleration: ***** <br> TopSpeed: *** <br> Grip: ***** <br> Recommendation: Quick, but so quick that it is hard to drive.'
     },
-  {name: 'Lion 205', chassis: 'Lion 205S', motor: 'Lion 1.6', tires: 'Mechelen Energy', armour: 'Defender Lite',
+  {name: 'Lion 205', chassis: 'Lion 205S', motor: 'Lion 1.6r', tires: 'Mechelen Energy', armour: 'Defender Lite',
   description: 'Basic car from traditional french manufacturer. Good for a new driver as it is very easy to drive.',
    stats: 'Acceleration: * <br> TopSpeed: * <br> Grip: ***** <br> Recommendation: Good for practice, hard to make records.'
     },
@@ -104,17 +104,17 @@ export const motors = [
   {name: 'Rond V10', power: 2.2, maxSpeed: 36, weight: 6, durability: 8, cost: 250, desc: 'Racing version of Rond V8. Giving much more power, but not that durable as standard motor.'},
   {name: 'Beijing turbo', power: 2.2, maxSpeed: 34, weight: 7, durability: 5, cost: 100, desc: 'Racing motor with price of a normal civil motor! However, do not count on the durability.. too much'},
   {name: 'Zermeces-Lenz 2.5', power: 1.8, maxSpeed: 20, weight: 3, durability: 10, cost: 200, desc: 'Very light and reliable motor, with enough power for lighter cars.'},
-  {name: 'Lion 1.6', power: 0.89, maxSpeed: 12, weight: 2, durability: 6, cost: 50, desc: 'Cheap, but not powerful or reliable.'},
-  {name: 'Vodkanov HD', power: 4.3, maxSpeed: 47, weight: 10, durability: 8, cost: 90, desc: 'This is motor designed for tanks. Lots of power. Heavy solution for heavy vehicle.'},
+  {name: 'Lion 1.6r', power: 1, maxSpeed: 20, weight: 2, durability: 6, cost: 50, desc: 'Cheap, but not powerful or reliable.'},
+  {name: 'Vodkanov HD', power: 4.7, maxSpeed: 47, weight: 10, durability: 8, cost: 90, desc: 'This is motor designed for tanks. Lots of power. Heavy solution for heavy vehicle.'},
   {name: 'Ferrgini V12', power: 2, maxSpeed: 25, weight: 5, durability: 10, cost: 300, desc: 'Powerful Ferrgini race motor.'},
 ];
 // Tires:
 export const tires = [
-  {name: 'Rockstone standard', grip: 26, cost: 100, weight: 0, desc: 'solid basic tires. you can not go wrong with these ones'},
-  {name: 'Rockstone racing', grip: 33, cost: 250, weight: 0, desc: 'racing versions of Rockstones. Pretty good set for racing indeed.'},
-  {name: 'Mechelen Energy', grip: 27, cost: 120, weight: 0, desc: 'very good basic tires.'},
+  {name: 'Rockstone standard', grip: 24, cost: 100, weight: 0, desc: 'solid basic tires. you can not go wrong with these ones'},
+  {name: 'Rockstone racing', grip: 29, cost: 250, weight: 0, desc: 'racing versions of Rockstones. Pretty good set for racing indeed.'},
+  {name: 'Mechelen Energy', grip: 24, cost: 120, weight: 0, desc: 'very good basic tires.'},
   {name: 'Xinghao X', grip: 20, cost: 50, weight: 1, desc: 'Cheap tire solution for low top speeds.'},
-  {name: 'Tank tracks', grip: 47, cost: 120, weight: 7, desc: 'Rubber tank tracks. Great grip but weight quite much.'}
+  {name: 'Tank tracks', grip: 100, cost: 120, weight: 7, desc: 'Rubber tank tracks. Great grip but weight quite much.'}
 ];
 // Armours:
 export const armours = [
