@@ -4,6 +4,7 @@ import './startMenu.css';
 import { vehicles } from '../../data/carsAndParts.js';
 import { colorsAll, raceTypes, gameObject } from '../../data/miscVariables.js';
 import { tracks } from '../../data/tracks.js';
+import firebase from '../../firebase/fire.js';
 
 class StartMenu extends Component {
   constructor() {
@@ -89,6 +90,15 @@ class StartMenu extends Component {
     }); 
   
     // fetch top drivers and lap records entries from database.
+    //allow your app to sign in anonomously
+    firebase.auth().signInAnonymously().catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ...
+      console.log('fbase error: ', errorCode);
+      console.log('fbase eMsg: ', errorMessage);
+    });
     //showListFromDB(false); // lap records
     //showListFromDB(true);  // top drivers
     // add them to their place.
