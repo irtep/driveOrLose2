@@ -1,11 +1,12 @@
 import firebase from 'firebase'
-var config = { /* COPY THE ACTUAL CONFIG FROM FIREBASE CONSOLE */
-      apiKey: "AIzaSyDCIawWWRooKblm1qvjFdaHb8bMCj-Kfzk", // ok
-      authDomain: "mycv-8b9e8.firebaseapp.com", //ok
-      databaseURL: "https://mycv-8b9e8.firebaseio.com", //ok
-      projectId: "mycv-8b9e8",  // ok
-      storageBucket: "mycv-8b9e8.appspot.com",
-      messagingSenderId: "carGame"
+import { apiConfig } from '../config.js'; 
+var config = { 
+      apiKey: apiConfig.apiKey, // ok
+      authDomain: apiConfig.authDomain, //ok
+      databaseURL: apiConfig.databaseURL, //ok
+      projectId: apiConfig.projectId,  // ok
+      storageBucket: apiConfig.storageBucket,
+      messagingSenderId: apiConfig.messagingSenderId
     };
 firebase.initializeApp(config);
 export default firebase;
